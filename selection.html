@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Seleksi Marga | Valtz Clan - Upload Video Preset</title>
+    <title>Seleksi Marga Valtz - Tunggu Verifikasi</title>
     <style>
         * {
             margin: 0;
@@ -15,7 +15,6 @@
             font-family: 'Segoe UI', 'Poppins', system-ui;
             background: #0a0f1e;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .selection-page {
@@ -42,7 +41,7 @@
         .container {
             position: relative;
             z-index: 10;
-            max-width: 1200px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 2rem;
             min-height: 100vh;
@@ -51,14 +50,13 @@
             justify-content: center;
         }
 
-        .single-card {
+        .card {
             background: rgba(10, 20, 30, 0.7);
             backdrop-filter: blur(12px);
             border-radius: 32px;
             padding: 2rem;
             border: 1px solid rgba(0, 180, 255, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            max-width: 700px;
             width: 100%;
         }
 
@@ -75,28 +73,10 @@
             letter-spacing: 2px;
         }
 
-        .header p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        .video-preview {
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .video-preview video {
-            width: 100%;
-            max-height: 250px;
-            border-radius: 16px;
-            border: 1px solid #00aaff;
-        }
-
         .upload-area {
             border: 2px dashed rgba(0, 180, 255, 0.5);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
@@ -112,6 +92,17 @@
             display: none;
         }
 
+        .video-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .video-preview video {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 16px;
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -121,7 +112,6 @@
             color: #ccf0ff;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            letter-spacing: 1px;
         }
 
         .form-group input {
@@ -132,13 +122,11 @@
             border-radius: 12px;
             color: white;
             font-size: 1rem;
-            transition: all 0.3s;
         }
 
         .form-group input:focus {
             outline: none;
             border-color: #00aaff;
-            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
         }
 
         .btn-submit {
@@ -148,49 +136,55 @@
             border: 1px solid rgba(0, 180, 255, 0.6);
             border-radius: 40px;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            letter-spacing: 2px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
+            transition: 0.3s;
         }
 
         .btn-submit:hover {
             background: linear-gradient(95deg, #2a5a8c, #0f2a44);
-            box-shadow: 0 0 20px rgba(0, 160, 255, 0.5);
-            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 160, 255, 0.5);
+        }
+
+        .status-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .btn-cek {
+            background: #ff9800;
+            border: none;
+            padding: 10px;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .back-btn {
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 20;
             background: rgba(0,0,0,0.6);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(0,180,255,0.5);
             border-radius: 40px;
-            padding: 10px 20px;
+            padding: 8px 18px;
             color: white;
             text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
+            z-index: 20;
         }
 
-        .back-btn:hover {
-            background: #1a3f6e;
+        .lolos-box {
+            background: rgba(0, 100, 0, 0.6);
+            border: 1px solid #00ff00;
         }
 
-        .result-box {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(0, 40, 60, 0.8);
-            border-radius: 16px;
-            text-align: center;
-        }
-
-        .wa-link {
+        .wa-masuk {
             display: inline-block;
             margin-top: 10px;
             padding: 12px 24px;
@@ -199,55 +193,44 @@
             font-weight: bold;
             border-radius: 40px;
             text-decoration: none;
-            font-size: 1.1rem;
-        }
-
-        .info-text {
-            color: #aaa;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
     <div class="selection-page">
         <a href="index.html" class="back-btn">← KEMBALI</a>
-
         <div class="container">
-            <div class="single-card">
+            <div class="card">
                 <div class="header">
                     <h2>🎬 SELEKSI MARGA VALTZ</h2>
-                    <p>Upload video preset kamu untuk dirating di grup WhatsApp</p>
+                    <p>Upload video preset kamu, tunggu verifikasi dari tim</p>
                 </div>
 
                 <form id="selectionForm">
                     <div class="form-group">
-                        <label>🏷️ Nama Lengkap / Nickname</label>
-                        <input type="text" id="fullName" placeholder="Contoh: Valtz Warrior" required>
+                        <label>Nama Lengkap / Nickname</label>
+                        <input type="text" id="fullName" placeholder="Ex: Valtz Ksatria" required>
                     </div>
-
                     <div class="form-group">
-                        <label>📍 Asal Daerah / Kota</label>
-                        <input type="text" id="origin" placeholder="Contoh: Jakarta, Medan, Bandung" required>
+                        <label>Asal Daerah</label>
+                        <input type="text" id="origin" placeholder="Ex: Jakarta, Medan" required>
                     </div>
-
                     <div class="form-group">
-                        <label>📹 Upload Video Preset Kamu</label>
+                        <label>📹 Upload Video Preset</label>
                         <div class="upload-area" id="uploadArea">
                             📂 Klik atau drag video di sini
                             <input type="file" id="videoInput" accept="video/*" required>
                         </div>
                         <div class="video-preview" id="videoPreview"></div>
                     </div>
-
-                    <button type="submit" class="btn-submit">✨ KIRIM KE GRUP SELEKSI ✨</button>
+                    <button type="submit" class="btn-submit">✨ DAFTAR SELEKSI ✨</button>
                 </form>
 
-                <div id="resultArea"></div>
-                <div class="info-text">
-                    ⚡ Format: MP4, MOV (Max 50MB)<br>
-                    💬 Video akan langsung dikirim ke grup seleksi untuk dirating
+                <div id="statusArea">
+                    <div class="status-box">
+                        🔍 Belum ada status seleksi.<br>
+                        Silakan daftar terlebih dahulu.
+                    </div>
                 </div>
             </div>
         </div>
@@ -258,115 +241,139 @@
         const videoInput = document.getElementById('videoInput');
         const videoPreview = document.getElementById('videoPreview');
         const form = document.getElementById('selectionForm');
-        const resultArea = document.getElementById('resultArea');
+        const statusArea = document.getElementById('statusArea');
 
         let selectedVideoFile = null;
         let selectedVideoURL = null;
+        let kodePeserta = null;
 
-        // Upload area klik
+        // Upload video
         uploadArea.addEventListener('click', () => videoInput.click());
-
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#00aaff';
-            uploadArea.style.background = 'rgba(0,100,200,0.2)';
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.style.borderColor = 'rgba(0, 180, 255, 0.5)';
-            uploadArea.style.background = 'transparent';
-        });
-
+        uploadArea.addEventListener('dragover', (e) => e.preventDefault());
         uploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
             const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('video/')) {
-                handleVideo(file);
-            } else {
-                alert('Harap upload file video!');
-            }
-            uploadArea.style.borderColor = 'rgba(0, 180, 255, 0.5)';
+            if (file && file.type.startsWith('video/')) handleVideo(file);
         });
-
         videoInput.addEventListener('change', (e) => {
-            if (videoInput.files.length > 0) {
-                handleVideo(videoInput.files[0]);
-            }
+            if (videoInput.files.length) handleVideo(videoInput.files[0]);
         });
 
         function handleVideo(file) {
-            // Batasi ukuran 50MB
-            if (file.size > 50 * 1024 * 1024) {
-                alert('Ukuran video terlalu besar! Maksimal 50MB.');
-                return;
-            }
-            
+            if (file.size > 50 * 1024 * 1024) return alert('Maksimal 50MB');
             selectedVideoFile = file;
-            if (selectedVideoURL) {
-                URL.revokeObjectURL(selectedVideoURL);
-            }
+            if (selectedVideoURL) URL.revokeObjectURL(selectedVideoURL);
             selectedVideoURL = URL.createObjectURL(file);
-            videoPreview.innerHTML = `
-                <video controls style="width:100%; max-height:250px; border-radius:12px;">
-                    <source src="${selectedVideoURL}" type="${file.type}">
-                    Browser tidak support video preview.
-                </video>
-                <p style="color:#88ffaa; margin-top:8px;">✅ Video "${file.name}" siap dikirim!</p>
-            `;
+            videoPreview.innerHTML = `<video controls src="${selectedVideoURL}" style="width:100%; border-radius:12px;"></video>
+                                      <p style="color:#88ffaa;">✅ Video siap</p>`;
         }
 
-        // SUBMIT form
-        form.addEventListener('submit', async (e) => {
+        // Simpan pendaftaran ke localStorage (simulasi database)
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
-
             const fullName = document.getElementById('fullName').value.trim();
             const origin = document.getElementById('origin').value.trim();
 
-            if (!fullName || !origin) {
-                showResult('⚠️ Harap isi Nama dan Asal Daerah!', '#ff8888');
+            if (!fullName || !origin || !selectedVideoFile) {
+                alert('Isi semua data dan upload video!');
                 return;
             }
 
-            if (!selectedVideoFile) {
-                showResult('⚠️ Kamu harus upload video preset terlebih dahulu!', '#ff8888');
-                return;
-            }
-
-            // Link grup seleksi Valtz
-            const waGroupLink = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
-
-            // Buat pesan untuk WhatsApp
-            const message = `*SELEKSI MARGA VALTZ*%0A%0A*Nama:* ${fullName}%0A*Asal:* ${origin}%0A*Video Preset:* (lampirkan video)%0A%0A_Tolong rate video ini di grup seleksi_`;
-
-            // Tampilkan hasil dengan link WA + instruksi kirim video
-            showResult(`
-                <div class="result-box">
-                    ✅ <strong>${fullName}</strong> (${origin})<br>
-                    🎥 Video: <strong>${selectedVideoFile.name}</strong><br><br>
-                    📢 <strong>Langkah selanjutnya:</strong><br>
-                    1. Klik tombol di bawah untuk join grup seleksi<br>
-                    2. Kirim video preset kamu ke grup<br>
-                    3. Tunggu rating dari anggota Valtz!<br><br>
-                    <a href="${waGroupLink}" target="_blank" class="wa-link">💬 JOIN GRUP SELEKSI VALTZ 💬</a>
-                    <p style="margin-top:15px; font-size:13px;">
-                        <a href="https://wa.me/?text=${message}" target="_blank" style="color:#88ccff;">📱 Atau klik di sini untuk kirim pesan via WhatsApp</a>
-                    </p>
-                </div>
-            `, '#88ffaa');
-
-            // Efek getar
-            if ('vibrate' in navigator) {
-                navigator.vibrate(100);
-            }
-
-            // Reset form opsional (biarkan agar user lihat preview, atau reset)
-            // Tidak reset biar user masih bisa lihat videonya
+            // Buat ID peserta unik
+            kodePeserta = 'VLT' + Date.now() + Math.floor(Math.random() * 1000);
+            
+            // Simpan data peserta
+            const peserta = {
+                id: kodePeserta,
+                nama: fullName,
+                asal: origin,
+                videoName: selectedVideoFile.name,
+                status: 'pending', // pending, lolos, ditolak
+                timestamp: Date.now()
+            };
+            localStorage.setItem('valtz_peserta', JSON.stringify(peserta));
+            
+            // Tampilkan status pending
+            tampilkanStatus('pending', kodePeserta);
+            
+            // Reset form biar gak dobel
+            form.reset();
+            videoPreview.innerHTML = '';
+            selectedVideoFile = null;
+            
+            alert(`✅ Pendaftaran berhasil!\nKode peserta: ${kodePeserta}\n\nTim akan melakukan verifikasi. Cek status secara berkala.`);
         });
 
-        function showResult(msg, color = '#88ffaa') {
-            resultArea.innerHTML = `<div class="result-box" style="border-left: 4px solid ${color};">${msg}</div>`;
+        // Fungsi cek status (dari localStorage, nanti admin bisa ganti manual via console atau file)
+        function cekStatus() {
+            const data = localStorage.getItem('valtz_peserta');
+            if (!data) {
+                tampilkanStatus('no_data');
+                return;
+            }
+            const peserta = JSON.parse(data);
+            tampilkanStatus(peserta.status, peserta.id);
         }
+
+        function tampilkanStatus(status, kode = '') {
+            if (status === 'pending') {
+                statusArea.innerHTML = `
+                    <div class="status-box">
+                        ⏳ <strong>STATUS: MENUNGGU VERIFIKASI</strong><br>
+                        Kode Peserta: <strong>${kode}</strong><br>
+                        Video preset sedang diperiksa oleh tim seleksi.<br>
+                        <button class="btn-cek" onclick="cekStatus()">🔄 CEK STATUS LAGI</button>
+                    </div>
+                `;
+            } 
+            else if (status === 'lolos') {
+                statusArea.innerHTML = `
+                    <div class="status-box lolos-box">
+                        🎉 <strong>SELAMAT! KAMU LOLOS SELEKSI!</strong> 🎉<br>
+                        Kode: ${kode}<br>
+                        Kamu berhak masuk ke <strong>GRUP UTAMA VALTZ</strong>.<br>
+                        <a href="https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1" target="_blank" class="wa-masuk">🔥 MASUK GRUP UTAMA VALTZ 🔥</a>
+                        <br><br>
+                        <button class="btn-cek" onclick="cekStatus()">🔄 CEK ULANG</button>
+                    </div>
+                `;
+            }
+            else if (status === 'ditolak') {
+                statusArea.innerHTML = `
+                    <div class="status-box">
+                        ❌ <strong>MAAF, KAMU BELUM LOLOS SELEKSI</strong><br>
+                        Kode: ${kode}<br>
+                        Coba lagi lain waktu atau upload video yang lebih keren!<br>
+                        <button class="btn-cek" onclick="cekStatus()">🔄 CEK ULANG</button>
+                    </div>
+                `;
+            }
+            else {
+                statusArea.innerHTML = `
+                    <div class="status-box">
+                        🔍 Belum ada status seleksi.<br>
+                        Silakan daftar terlebih dahulu.
+                    </div>
+                `;
+            }
+        }
+
+        // Tambahkan tombol cek status manual (biar bisa dipencet kapan aja)
+        const btnCek = document.createElement('button');
+        btnCek.innerText = '🔍 CEK STATUS SAYA';
+        btnCek.style.width = '100%';
+        btnCek.style.padding = '10px';
+        btnCek.style.marginTop = '10px';
+        btnCek.style.background = '#2c3e66';
+        btnCek.style.border = '1px solid #00aaff';
+        btnCek.style.borderRadius = '30px';
+        btnCek.style.color = 'white';
+        btnCek.style.cursor = 'pointer';
+        btnCek.onclick = cekStatus;
+        document.querySelector('.card').appendChild(btnCek);
+
+        // Initial check
+        cekStatus();
     </script>
 </body>
 </html>

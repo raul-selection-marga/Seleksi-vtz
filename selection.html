@@ -42,7 +42,7 @@
         .container {
             position: relative;
             z-index: 10;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
             min-height: 100vh;
@@ -51,48 +51,36 @@
             justify-content: center;
         }
 
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            width: 100%;
-        }
-
-        .column {
+        .single-card {
             background: rgba(10, 20, 30, 0.7);
             backdrop-filter: blur(12px);
             border-radius: 32px;
             padding: 2rem;
             border: 1px solid rgba(0, 180, 255, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 700px;
+            width: 100%;
         }
 
-        .column:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 200, 255, 0.6);
-        }
-
-        .col-header {
+        .header {
             text-align: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 2px solid rgba(0, 180, 255, 0.5);
         }
 
-        .col-header h2 {
-            font-size: 1.8rem;
+        .header h2 {
+            font-size: 2rem;
             color: #88ccff;
             letter-spacing: 2px;
         }
 
-        .col-header p {
+        .header p {
             color: rgba(255,255,255,0.7);
             font-size: 0.9rem;
             margin-top: 0.5rem;
         }
 
-        /* Video Preview Area */
         .video-preview {
             margin-top: 1rem;
             text-align: center;
@@ -112,7 +100,7 @@
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
 
         .upload-area:hover {
@@ -124,7 +112,6 @@
             display: none;
         }
 
-        /* Form groups */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -137,8 +124,7 @@
             letter-spacing: 1px;
         }
 
-        .form-group input, 
-        .form-group select {
+        .form-group input {
             width: 100%;
             padding: 12px 16px;
             background: rgba(0, 0, 0, 0.6);
@@ -149,14 +135,13 @@
             transition: all 0.3s;
         }
 
-        .form-group input:focus, 
-        .form-group select:focus {
+        .form-group input:focus {
             outline: none;
             border-color: #00aaff;
             box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
         }
 
-        .btn-enter {
+        .btn-submit {
             width: 100%;
             padding: 14px;
             background: linear-gradient(95deg, #1a3f6e, #0a1a2f);
@@ -171,7 +156,7 @@
             margin-top: 1rem;
         }
 
-        .btn-enter:hover {
+        .btn-submit:hover {
             background: linear-gradient(95deg, #2a5a8c, #0f2a44);
             box-shadow: 0 0 20px rgba(0, 160, 255, 0.5);
             transform: scale(1.02);
@@ -208,22 +193,20 @@
         .wa-link {
             display: inline-block;
             margin-top: 10px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: #25D366;
             color: black;
             font-weight: bold;
             border-radius: 40px;
             text-decoration: none;
+            font-size: 1.1rem;
         }
 
-        @media (max-width: 900px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .container {
-                padding: 5rem 1rem 2rem;
-            }
+        .info-text {
+            color: #aaa;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -232,66 +215,45 @@
         <a href="index.html" class="back-btn">← KEMBALI</a>
 
         <div class="container">
-            <div class="two-columns">
-                <!-- KOLOM KIRI: UPLOAD VIDEO PRESET -->
-                <div class="column">
-                    <div class="col-header">
-                        <h2>🎬 UPLOAD VIDEO PRESET</h2>
-                        <p>Upload video preset buatanmu untuk diseleksi</p>
+            <div class="single-card">
+                <div class="header">
+                    <h2>🎬 SELEKSI MARGA VALTZ</h2>
+                    <p>Upload video preset kamu untuk dirating di grup WhatsApp</p>
+                </div>
+
+                <form id="selectionForm">
+                    <div class="form-group">
+                        <label>🏷️ Nama Lengkap / Nickname</label>
+                        <input type="text" id="fullName" placeholder="Contoh: Valtz Warrior" required>
                     </div>
 
                     <div class="form-group">
-                        <label>📹 Video Preset Kamu</label>
+                        <label>📍 Asal Daerah / Kota</label>
+                        <input type="text" id="origin" placeholder="Contoh: Jakarta, Medan, Bandung" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📹 Upload Video Preset Kamu</label>
                         <div class="upload-area" id="uploadArea">
                             📂 Klik atau drag video di sini
-                            <input type="file" id="videoInput" accept="video/*">
+                            <input type="file" id="videoInput" accept="video/*" required>
                         </div>
                         <div class="video-preview" id="videoPreview"></div>
                     </div>
 
-                    <div class="info-text" style="color:#aaa; font-size:0.8rem; text-align:center;">
-                        ⚡ Format: MP4, MOV, AVI (Max 100MB)
-                    </div>
-                </div>
+                    <button type="submit" class="btn-submit">✨ KIRIM KE GRUP SELEKSI ✨</button>
+                </form>
 
-                <!-- KOLOM KANAN: FORM PENDAFTARAN + PILIH GRUP -->
-                <div class="column">
-                    <div class="col-header">
-                        <h2>📝 FORM SELEKSI VALTZ</h2>
-                        <p>Isi data dirimu untuk ikut seleksi</p>
-                    </div>
-
-                    <form id="selectionForm">
-                        <div class="form-group">
-                            <label>Nama Lengkap</label>
-                            <input type="text" id="fullName" placeholder="Contoh: Valtz Warrior" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Asal Daerah / Kota</label>
-                            <input type="text" id="origin" placeholder="Contoh: Jakarta, Medan" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Pilih Grup (Hanya 2 Pilihan)</label>
-                            <select id="groupSelect" required>
-                                <option value="">-- Pilih Grup --</option>
-                                <option value="Valtz V1">⚡ VALTZ V1</option>
-                                <option value="Valtz V2">🔥 VALTZ V2</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn-enter">✨ SUBMIT & DAPATKAN LINK WA ✨</button>
-                    </form>
-
-                    <div id="resultArea"></div>
+                <div id="resultArea"></div>
+                <div class="info-text">
+                    ⚡ Format: MP4, MOV (Max 50MB)<br>
+                    💬 Video akan langsung dikirim ke grup seleksi untuk dirating
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Ambil elemen
         const uploadArea = document.getElementById('uploadArea');
         const videoInput = document.getElementById('videoInput');
         const videoPreview = document.getElementById('videoPreview');
@@ -299,11 +261,12 @@
         const resultArea = document.getElementById('resultArea');
 
         let selectedVideoFile = null;
+        let selectedVideoURL = null;
 
         // Upload area klik
         uploadArea.addEventListener('click', () => videoInput.click());
 
-        // Drag and drop sederhana
+        // Drag and drop
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
             uploadArea.style.borderColor = '#00aaff';
@@ -326,7 +289,6 @@
             uploadArea.style.borderColor = 'rgba(0, 180, 255, 0.5)';
         });
 
-        // Saat pilih file manual
         videoInput.addEventListener('change', (e) => {
             if (videoInput.files.length > 0) {
                 handleVideo(videoInput.files[0]);
@@ -334,14 +296,23 @@
         });
 
         function handleVideo(file) {
+            // Batasi ukuran 50MB
+            if (file.size > 50 * 1024 * 1024) {
+                alert('Ukuran video terlalu besar! Maksimal 50MB.');
+                return;
+            }
+            
             selectedVideoFile = file;
-            const videoURL = URL.createObjectURL(file);
+            if (selectedVideoURL) {
+                URL.revokeObjectURL(selectedVideoURL);
+            }
+            selectedVideoURL = URL.createObjectURL(file);
             videoPreview.innerHTML = `
                 <video controls style="width:100%; max-height:250px; border-radius:12px;">
-                    <source src="${videoURL}" type="${file.type}">
+                    <source src="${selectedVideoURL}" type="${file.type}">
                     Browser tidak support video preview.
                 </video>
-                <p style="color:#88ffaa; margin-top:8px;">✅ Video "${file.name}" siap dikirim ke penilai!</p>
+                <p style="color:#88ffaa; margin-top:8px;">✅ Video "${file.name}" siap dikirim!</p>
             `;
         }
 
@@ -351,10 +322,9 @@
 
             const fullName = document.getElementById('fullName').value.trim();
             const origin = document.getElementById('origin').value.trim();
-            const group = document.getElementById('groupSelect').value;
 
-            if (!fullName || !origin || !group) {
-                showResult('⚠️ Harap isi semua data (Nama, Asal, dan Pilih Grup)!', '#ff8888');
+            if (!fullName || !origin) {
+                showResult('⚠️ Harap isi Nama dan Asal Daerah!', '#ff8888');
                 return;
             }
 
@@ -363,42 +333,39 @@
                 return;
             }
 
-            // Siapkan data untuk dikirim ke penilai (di Group WA)
-            // Di sini kita cuma simulasi kalau datanya akan di-rate di grup WA.
-            // Link WA beda sesuai grup yang dipilih.
-            let waGroupLink = '';
-            if (group === 'Valtz V1') {
-                waGroupLink = 'https://chat.whatsapp.com/KGBL5sy9D7uFqV2UJHmNnP'; // Ganti dengan link grup V1 asli
-            } else if (group === 'Valtz V2') {
-                waGroupLink = 'https://chat.whatsapp.com/L9M7KspXNqrFHwR3jTtYkL'; // Ganti dengan link grup V2 asli
-            }
+            // Link grup seleksi Valtz
+            const waGroupLink = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
 
-            // Tampilkan info sukses + link WA
-            const message = `
+            // Buat pesan untuk WhatsApp
+            const message = `*SELEKSI MARGA VALTZ*%0A%0A*Nama:* ${fullName}%0A*Asal:* ${origin}%0A*Video Preset:* (lampirkan video)%0A%0A_Tolong rate video ini di grup seleksi_`;
+
+            // Tampilkan hasil dengan link WA + instruksi kirim video
+            showResult(`
                 <div class="result-box">
                     ✅ <strong>${fullName}</strong> (${origin})<br>
-                    📂 Grup: <strong>${group}</strong><br>
-                    🎥 Video Preset: <strong>${selectedVideoFile.name}</strong><br><br>
-                    📢 Video dan datamu akan dirating di grup WhatsApp!<br>
-                    <a href="${waGroupLink}" target="_blank" class="wa-link">💬 JOIN GROUP ${group} UNTUK RATING 💬</a>
-                    <p style="font-size:12px; margin-top:10px;">⚠️ Setelah join, kirim video presetmu dan minta rating dari anggota.</p>
+                    🎥 Video: <strong>${selectedVideoFile.name}</strong><br><br>
+                    📢 <strong>Langkah selanjutnya:</strong><br>
+                    1. Klik tombol di bawah untuk join grup seleksi<br>
+                    2. Kirim video preset kamu ke grup<br>
+                    3. Tunggu rating dari anggota Valtz!<br><br>
+                    <a href="${waGroupLink}" target="_blank" class="wa-link">💬 JOIN GRUP SELEKSI VALTZ 💬</a>
+                    <p style="margin-top:15px; font-size:13px;">
+                        <a href="https://wa.me/?text=${message}" target="_blank" style="color:#88ccff;">📱 Atau klik di sini untuk kirim pesan via WhatsApp</a>
+                    </p>
                 </div>
-            `;
-            resultArea.innerHTML = message;
-
-            // Opsional: reset form kalau mau (tapi biarkan agar user lihat hasil)
-            // form.reset();
-            // videoPreview.innerHTML = '';
-            // selectedVideoFile = null;
+            `, '#88ffaa');
 
             // Efek getar
             if ('vibrate' in navigator) {
                 navigator.vibrate(100);
             }
+
+            // Reset form opsional (biarkan agar user lihat preview, atau reset)
+            // Tidak reset biar user masih bisa lihat videonya
         });
 
-        function showResult(msg, color) {
-            resultArea.innerHTML = `<div class="result-box" style="color:${color};">${msg}</div>`;
+        function showResult(msg, color = '#88ffaa') {
+            resultArea.innerHTML = `<div class="result-box" style="border-left: 4px solid ${color};">${msg}</div>`;
         }
     </script>
 </body>

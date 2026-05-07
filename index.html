@@ -31,11 +31,9 @@
             overflow: hidden;
         }
 
-        /* Logo marga (valtz) sebagai background utama - menggunakan gambar yang kamu kasih */
-        /* Karena kamu share gambar, saya jadikan background hero */
+        /* Logo marga (bg.png) sebagai background utama */
         .hero {
-            /* Ganti 'logo-marga.png' dengan nama file logo aslimu */
-            background-image: url('1000135285.png');
+            background-image: url('bg.png');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
@@ -54,7 +52,7 @@
             pointer-events: none;
         }
 
-        /* Efek gerakan subtle pada overlay logo (agar logo tetap terlihat tapi dinamis) */
+        /* Efek gerakan subtle pada overlay logo */
         .hero::after {
             content: "";
             position: absolute;
@@ -87,7 +85,7 @@
             }
         }
 
-        /* Logo kecil di tengah (opsional) biar lebih mantap */
+        /* Logo kecil di tengah */
         .clan-emblem {
             font-size: 5rem;
             margin-bottom: 0.5rem;
@@ -174,6 +172,10 @@
             color: white;
         }
 
+        .btn-selection:active {
+            transform: scale(0.95);
+        }
+
         /* footer */
         .footer {
             position: absolute;
@@ -209,21 +211,21 @@
             btn.style.transform = 'scale(0.9)';
             setTimeout(() => { btn.style.transform = ''; }, 150);
             
-            // efek suara visual + getar (jika user sentuh)
+            // efek getar jika user sentuh (HP)
             if ('vibrate' in navigator) {
                 navigator.vibrate(50);
             }
             
-            // Opsi: kalau kamu punya halaman selection.html nanti ganti dengan window.location.href
+            // Opsi pindah ke halaman seleksi
             const userConfirm = confirm("⚔️ Menuju halaman SELEKSI MARGA VALTZ? ⚔️\n\nSetelah ini kita bisa lanjut bikin halaman seleksi clan.");
             if (userConfirm) {
-                // Untuk sekarang masih alert, nanti kalau sudah buat selection.html aktifkan yang bawah
+                // Aktifkan baris di bawah jika sudah punya file selection.html
                 // window.location.href = "selection.html";
                 alert("✨ HALAMAN SELEKSI SEDANG DIRAKIT ✨\n\nTambahkan file selection.html untuk melanjutkan pencarian marga VALTZ.");
             }
         });
 
-        // dynamic parallax small effect on background (optional)
+        // efek parallax kecil pada background
         document.addEventListener('mousemove', (e) => {
             const x = (e.clientX / window.innerWidth) * 10;
             const y = (e.clientY / window.innerHeight) * 10;
@@ -231,4 +233,4 @@
         });
     </script>
 </body>
-  </html>
+</html>

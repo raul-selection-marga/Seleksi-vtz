@@ -18,7 +18,6 @@
             background: #0a0f1e;
         }
 
-        /* Container utama dengan logo background */
         .hero {
             position: relative;
             width: 100%;
@@ -31,7 +30,7 @@
             overflow: hidden;
         }
 
-        /* Logo marga (bg.png) sebagai background utama */
+        /* Background dengan bg.png + dark + blur */
         .hero {
             background-image: url('bg.png');
             background-size: cover;
@@ -39,7 +38,7 @@
             background-repeat: no-repeat;
         }
 
-        /* Overlay gelap agar teks tombol dan judul lebih terbaca */
+        /* Overlay lebih gelap + blur effect */
         .hero::before {
             content: "";
             position: absolute;
@@ -47,12 +46,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(10,15,30,0.4) 0%, rgba(0,0,0,0.75) 100%);
-            backdrop-filter: brightness(0.85);
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
             pointer-events: none;
         }
 
-        /* Efek gerakan subtle pada overlay logo */
+        /* Efek gradasi tambahan biar makin dark */
         .hero::after {
             content: "";
             position: absolute;
@@ -60,11 +59,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(45deg, rgba(255,215,0,0.02) 0px, rgba(255,215,0,0.02) 2px, transparent 2px, transparent 8px);
+            background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
             pointer-events: none;
         }
 
-        /* KONTEN UTAMA */
         .content {
             position: relative;
             z-index: 20;
@@ -85,7 +83,6 @@
             }
         }
 
-        /* Logo kecil di tengah */
         .clan-emblem {
             font-size: 5rem;
             margin-bottom: 0.5rem;
@@ -129,7 +126,6 @@
             font-weight: 500;
         }
 
-        /* TOMBOL GO TO SELECTION EPIC */
         .btn-selection {
             padding: 16px 48px;
             font-size: 1.5rem;
@@ -176,7 +172,6 @@
             transform: scale(0.95);
         }
 
-        /* footer */
         .footer {
             position: absolute;
             bottom: 20px;
@@ -207,22 +202,15 @@
         const btn = document.getElementById('goToSelectionBtn');
         
         btn.addEventListener('click', function(e) {
-            // efek keren klik
             btn.style.transform = 'scale(0.9)';
             setTimeout(() => { btn.style.transform = ''; }, 150);
             
-            // efek getar jika user sentuh (HP)
             if ('vibrate' in navigator) {
                 navigator.vibrate(50);
             }
             
-            // Opsi pindah ke halaman seleksi
-            const userConfirm = confirm("⚔️ Menuju halaman SELEKSI MARGA VALTZ? ⚔️\n\nSetelah ini kita bisa lanjut bikin halaman seleksi clan.");
-            if (userConfirm) {
-                // Aktifkan baris di bawah jika sudah punya file selection.html
-                // window.location.href = "selection.html";
-                alert("✨ HALAMAN SELEKSI SEDANG DIRAKIT ✨\n\nTambahkan file selection.html untuk melanjutkan pencarian marga VALTZ.");
-            }
+            // LANGSUNG PINDAH KE HALAMAN SELECTION
+            window.location.href = "selection.html";
         });
 
         // efek parallax kecil pada background

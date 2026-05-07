@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Seleksi Marga | Valtz Clan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui;
+            background: #0a0f1e;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background sama dengan halaman utama (dark + blur) */
+        .selection-page {
+            position: relative;
+            min-height: 100vh;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .selection-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            pointer-events: none;
+        }
+
+        /* Container utama */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 2 KOLOM GRID */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Gaya kedua kolom */
+        .column {
+            background: rgba(10, 20, 30, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 160, 255, 0.2);
+            border-color: rgba(0, 200, 255, 0.6);
+        }
+
+        /* Header kolom */
+        .col-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(0, 180, 255, 0.5);
+        }
+
+        .col-header h2 {
+            font-size: 1.8rem;
+            color: #88ccff;
+            letter-spacing: 2px;
+        }
+
+        .col-header p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* VIDEO SECTION */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-caption {
+            text-align: center;
+            margin-top: 1rem;
+            color: #aad0ff;
+            font-size: 0.9rem;
+        }
+
+        /* FORM SECTION */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ccf0ff;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 180, 255, 0.4);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Tombol ENTER/SUBMIT */
+        .btn-enter {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(95deg, #1a3f6e, #0a1a2f);
+            border: 1px solid rgba(0, 180, 255, 0.6);
+            border-radius: 40px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-enter:hover {
+            background: linear-gradient(95deg, #2a5a8c, #0f2a44);
+            box-shadow: 0 0 20px rgba(0, 160, 255, 0.5);
+            transform: scale(1.02);
+            border-color: #88ddff;
+        }
+
+        /* Tombol back */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0,180,255,0.5);
+            border-radius: 40px;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #1a3f6e;
+            border-color: #00aaff;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .container {
+                padding: 5rem 1rem 2rem;
+            }
+            .col-header h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="selection-page">
+        <a href="index.html" class="back-btn">← KEMBALI</a>
+        
+        <div class="container">
+            <div class="two-columns">
+                <!-- KOLOM 1: VIDEO SELEKSI -->
+                <div class="column">
+                    <div class="col-header">
+                        <h2>🎥 SELEKSI VIDEO</h2>
+                        <p>Tonton video seleksi marga berikut</p>
+                    </div>
+                    <div class="video-wrapper">
+                        <!-- Ganti src dengan video kamu -->
+                        <video id="selectionVideo" controls poster="https://via.placeholder.com/800x450?text=Video+Seleksi+Marga">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser kamu tidak support video tag.
+                        </video>
+                    </div>
+                    <div class="video-caption">
+                        ⚔️ Video panduan seleksi marga Valtz Clan ⚔️
+                    </div>
+                </div>
+
+                <!-- KOLOM 2: FORM ENTER -->
+                <div class="column">
+                    <div class="col-header">
+                        <h2>📝 ENTER YOUR DATA</h2>
+                        <p>Isi data diri untuk mengikuti seleksi marga</p>
+                    </div>
+                    
+                    <form id="selectionForm">
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" id="fullName" placeholder="Contoh: Valtz Ksatria" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Asal Daerah</label>
+                            <input type="text" id="origin" placeholder="Contoh: Medan, Jakarta, dll" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Pilih Marga Awal</label>
+                            <select id="initialClan">
+                                <option value="">-- Pilih Marga --</option>
+                                <option value="Valtz Knight">⚔️ Valtz Knight</option>
+                                <option value="Valtz Mage">🔮 Valtz Mage</option>
+                                <option value="Valtz Assassin">🗡️ Valtz Assassin</option>
+                                <option value="Valtz Archer">🏹 Valtz Archer</option>
+                                <option value="Valtz Berserker">🪓 Valtz Berserker</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kode Pendaftaran (Opsional)</label>
+                            <input type="text" id="regCode" placeholder="Masukkan kode jika punya">
+                        </div>
+
+                        <button type="submit" class="btn-enter">✨ ENTER SELECTION ✨</button>
+                    </form>
+
+                    <div id="formResult" style="margin-top: 1rem; text-align: center; color: #88ffaa;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('selectionForm');
+        const resultDiv = document.getElementById('formResult');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('fullName').value;
+            const origin = document.getElementById('origin').value;
+            const clan = document.getElementById('initialClan').value;
+            
+            if (!name || !origin || !clan) {
+                resultDiv.innerHTML = '<span style="color: #ff8888;">⚠️ Harap isi semua data yang diperlukan!</span>';
+                resultDiv.style.color = '#ff8888';
+                return;
+            }
+            
+            // Simulasi proses seleksi
+            resultDiv.innerHTML = `
+                <div style="background: rgba(0,40,60,0.8); padding: 1rem; border-radius: 12px; margin-top: 0.5rem;">
+                    ✅ <strong>${name}</strong> dari <strong>${origin}</strong><br>
+                    Marga awal: <strong>${clan}</strong><br>
+                    🎉 Pendaftaran seleksi berhasil!<br>
+                    <span style="font-size: 0.8rem;">Kamu akan dihubungi oleh <strong>Valtz Council</strong></span>
+                </div>
+            `;
+            resultDiv.style.color = '#88ffaa';
+            
+            // Reset form optional (biarkan atau hapus)
+            // form.reset();
+            
+            // Efek getar
+            if ('vibrate' in navigator) {
+                navigator.vibrate(100);
+            }
+        });
+    </script>
+</body>
+</html>

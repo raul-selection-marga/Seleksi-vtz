@@ -2,185 +2,136 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Admin Panel - Valtz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Valtz Clan</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', system-ui;
             background: #0a0f1e;
             padding: 20px;
         }
-
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
-
-        .header {
-            background: linear-gradient(135deg, #1a2a4a, #0a1a2f);
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            border: 1px solid #00aaff;
+        h1 { 
+            color: #88ccff; 
+            text-align: center; 
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
         }
-
-        .header h1 {
-            color: #88ccff;
-        }
-
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
-
         .stat-card {
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 20px;
             text-align: center;
             border: 1px solid #00aaff;
         }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ffaa00;
-        }
-
+        .stat-number { font-size: 2rem; font-weight: bold; color: #ffaa00; }
+        .stat-label { color: #ccc; font-size: 0.85rem; margin-top: 5px; }
         .filter-bar {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
-
         .filter-bar input, .filter-bar select {
-            padding: 10px;
+            padding: 10px 15px;
             background: rgba(0,0,0,0.6);
             border: 1px solid #00aaff;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             flex: 1;
         }
-
         .table-wrapper {
             overflow-x: auto;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 15px;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(0,170,255,0.3);
-            color: white;
-        }
-
-        th {
-            color: #88ccff;
-        }
-
-        .status-pending {
-            background: #ff9800;
-            padding: 5px 10px;
-            border-radius: 20px;
-            color: black;
-        }
-
-        .status-lolos {
-            background: #4caf50;
-            padding: 5px 10px;
-            border-radius: 20px;
-        }
-
-        .status-ditolak {
-            background: #f44336;
-            padding: 5px 10px;
-            border-radius: 20px;
-        }
-
-        select.status-select {
-            padding: 5px;
-            border-radius: 10px;
-            background: #1a2a4a;
-            color: white;
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #00aaff33; color: white; }
+        th { color: #88ccff; font-weight: 600; }
+        .status-pending { background: #ff9800; padding: 5px 12px; border-radius: 20px; display: inline-block; font-size: 0.8rem; }
+        .status-lolos { background: #4caf50; padding: 5px 12px; border-radius: 20px; display: inline-block; font-size: 0.8rem; }
+        .status-ditolak { background: #f44336; padding: 5px 12px; border-radius: 20px; display: inline-block; font-size: 0.8rem; }
+        select.status-select { 
+            padding: 6px 10px; 
+            border-radius: 12px; 
+            background: #1a2a4a; 
+            color: white; 
             border: 1px solid #00aaff;
-        }
-
-        .refresh-btn {
-            background: #00aaff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: white;
             cursor: pointer;
         }
+        .refresh-btn { 
+            background: #00aaff; 
+            border: none; 
+            padding: 10px 24px; 
+            border-radius: 30px; 
+            color: white; 
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .refresh-btn:hover { background: #0088cc; }
+        .video-link { color: #88ccff; text-decoration: none; }
+        .video-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>⚔️ ADMIN PANEL - SELEKSI VALTZ ⚔️</h1>
-        </div>
+        <h1>⚔️ ADMIN PANEL - SELEKSI VALTZ CLAN ⚔️</h1>
 
         <div class="stats">
-            <div class="stat-card"><div class="stat-number" id="totalCount">0</div><div>Total</div></div>
-            <div class="stat-card"><div class="stat-number" id="pendingCount">0</div><div>Menunggu</div></div>
-            <div class="stat-card"><div class="stat-number" id="lolosCount">0</div><div>Lolos</div></div>
-            <div class="stat-card"><div class="stat-number" id="ditolakCount">0</div><div>Ditolak</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalCount">0</div><div class="stat-label">Total Peserta</div></div>
+            <div class="stat-card"><div class="stat-number" id="pendingCount">0</div><div class="stat-label">Menunggu</div></div>
+            <div class="stat-card"><div class="stat-number" id="lolosCount">0</div><div class="stat-label">Lolos</div></div>
+            <div class="stat-card"><div class="stat-number" id="ditolakCount">0</div><div class="stat-label">Ditolak</div></div>
         </div>
 
         <div class="filter-bar">
-            <input type="text" id="searchInput" placeholder="🔍 Cari nama atau ID" onkeyup="filterTable()">
+            <input type="text" id="searchInput" placeholder="🔍 Cari nama atau ID..." onkeyup="filterTable()">
             <select id="filterStatus" onchange="filterTable()">
-                <option value="all">Semua</option>
-                <option value="pending">Menunggu</option>
-                <option value="lolos">Lolos</option>
-                <option value="ditolak">Ditolak</option>
+                <option value="all">📋 Semua Status</option>
+                <option value="pending">⏳ Menunggu</option>
+                <option value="lolos">✅ Lolos</option>
+                <option value="ditolak">❌ Ditolak</option>
             </select>
-            <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+            <button class="refresh-btn" onclick="loadData()">🔄 Refresh Data</button>
         </div>
 
         <div class="table-wrapper">
             <table id="pesertaTable">
                 <thead>
-                    <tr><th>ID</th><th>Nama</th><th>Asal</th><th>Video</th><th>Status</th><th>Aksi</th><th>Tanggal</th></tr>
+                    <tr><th>ID</th><th>Nama</th><th>Asal</th><th>Video Link</th><th>Status</th><th>Aksi</th><th>Tanggal Daftar</th></tr>
                 </thead>
-                <tbody id="tableBody"><tr><td colspan="7">Loading...</td></tr></tbody>
+                <tbody id="tableBody"><tr><td colspan="7">Loading...</td></tr</tbody>
             </table>
         </div>
     </div>
 
     <script>
-        const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyPGEzJM7GWCCUOyBPGco2woOWDKaELGnBpBSfCzPa4MVMw_dkkV1BHv0oyT6BMaz23/exec';
+        // ⚠️ GANTI DENGAN URL APPS SCRIPT KAMU ⚠️
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/ID_KAMU/exec';
         let allPeserta = [];
 
         async function loadData() {
             try {
-                const res = await fetch(`${WEBAPP_URL}?action=getAllPeserta`);
+                const res = await fetch(`${APPS_SCRIPT_URL}?action=getAll`);
                 const data = await res.json();
-                if (data.peserta) {
-                    allPeserta = data.peserta;
-                    updateStats();
-                    filterTable();
-                }
+                allPeserta = data;
+                updateStats();
+                filterTable();
             } catch(err) {
-                document.getElementById('tableBody').innerHTML = `<tr><td colspan="7">Error: ${err.message}</td></tr>`;
+                document.getElementById('tableBody').innerHTML = `<tr><td colspan="7">❌ Error: ${err.message}<br>Cek URL Apps Script kamu!</td></tr>`;
             }
         }
 
@@ -204,22 +155,22 @@
 
         function renderTable(data) {
             const tbody = document.getElementById('tableBody');
-            if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7">Tidak ada data</td></tr>';
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="7">📭 Belum ada data peserta</td></tr>';
                 return;
             }
             tbody.innerHTML = data.map(p => `
                 <tr>
-                    <td>${p.id}</td>
-                    <td>${p.nama}</td>
-                    <td>${p.asal}</td>
-                    <td>${p.videoName || '-'}</td>
-                    <td><span class="status-${p.status}">${p.status === 'pending' ? 'Menunggu' : (p.status === 'lolos' ? 'Lolos' : 'Ditolak')}</span></td>
+                    <td><code>${p.id}</code></td>
+                    <td><strong>${escapeHtml(p.nama)}</strong></td>
+                    <td>${escapeHtml(p.asal)}</td>
+                    <td><a href="${escapeHtml(p.videoLink)}" target="_blank" class="video-link">🎬 Buka Video</a></td>
+                    <td><span class="status-${p.status}">${p.status === 'pending' ? '⏳ Menunggu' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}</span></td>
                     <td>
                         <select class="status-select" data-id="${p.id}" onchange="updateStatus('${p.id}', this.value)">
-                            <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>Menunggu</option>
-                            <option value="lolos" ${p.status === 'lolos' ? 'selected' : ''}>Lolos</option>
-                            <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>Ditolak</option>
+                            <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>⏳ Menunggu</option>
+                            <option value="lolos" ${p.status === 'lolos' ? 'selected' : ''}>✅ Lolos</option>
+                            <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>❌ Ditolak</option>
                         </select>
                     </td>
                     <td>${p.tanggal ? p.tanggal.slice(0,10) : '-'}</td>
@@ -229,11 +180,19 @@
 
         async function updateStatus(id, newStatus) {
             try {
-                await fetch(`${WEBAPP_URL}?action=updateStatus&id=${encodeURIComponent(id)}&status=${encodeURIComponent(newStatus)}`);
+                await fetch(`${APPS_SCRIPT_URL}?action=updateStatus&id=${encodeURIComponent(id)}&status=${encodeURIComponent(newStatus)}`);
                 loadData();
+                if ('vibrate' in navigator) navigator.vibrate(50);
             } catch(err) {
-                alert('Gagal update: ' + err.message);
+                alert('Gagal update status: ' + err.message);
             }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         loadData();

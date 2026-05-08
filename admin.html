@@ -28,7 +28,7 @@
             margin-bottom: 20px;
         }
         .stat-card {
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             padding: 15px;
             border-radius: 20px;
@@ -45,7 +45,7 @@
         }
         .filter-bar input, .filter-bar select {
             padding: 10px 15px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid #00aaff;
             border-radius: 12px;
             color: white;
@@ -53,7 +53,7 @@
         }
         .table-wrapper {
             overflow-x: auto;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 15px;
@@ -113,14 +113,14 @@
                 <thead>
                     <tr><th>ID</th><th>Nama</th><th>Asal</th><th>Video Link</th><th>Status</th><th>Aksi</th><th>Tanggal Daftar</th></tr>
                 </thead>
-                <tbody id="tableBody"><tr><td colspan="7">Loading...</td></tr</tbody>
+                <tbody id="tableBody"><tr><td colspan="7">Loading...</tr></tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // ⚠️ GANTI DENGAN URL APPS SCRIPT KAMU ⚠️
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/ID_KAMU/exec';
+        // URL WEB APP KAMU
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWstVdpIyQVn0XZsgQeRsvVAEktafaRhErvZDp6t_IfLcibWz4dHT2DKaVGiwbSzSa/exec';
         let allPeserta = [];
 
         async function loadData() {
@@ -173,7 +173,7 @@
                             <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>❌ Ditolak</option>
                         </select>
                     </td>
-                    <td>${p.tanggal ? p.tanggal.slice(0,10) : '-'}</td>
+                    <td>${p.tanggal ? p.tanggal.slice(0, 10) : '-'}</td>
                 </tr>
             `).join('');
         }

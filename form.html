@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Pendaftaran - Valtz Clan</title>
+    <title>Seleksi Valtz - Upload Video</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -23,7 +23,7 @@
             z-index: -1;
         }
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 2rem;
             min-height: 100vh;
@@ -32,7 +32,7 @@
             justify-content: center;
         }
         .card {
-            background: rgba(10, 20, 30, 0.9);
+            background: rgba(10, 20, 30, 0.95);
             backdrop-filter: blur(12px);
             border-radius: 32px;
             padding: 2rem;
@@ -41,6 +41,22 @@
         }
         h1 { color: #88ccff; text-align: center; margin-bottom: 0.5rem; }
         .subtitle { color: #aaa; text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .closed-banner {
+            background: rgba(255, 100, 100, 0.3);
+            border: 1px solid #ff6666;
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .open-banner {
+            background: rgba(100, 255, 100, 0.2);
+            border: 1px solid #66ff66;
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label {
             display: block;
@@ -57,10 +73,26 @@
             color: white;
             font-size: 1rem;
         }
-        .form-group input:focus {
-            outline: none;
-            border-color: #88ccff;
-            box-shadow: 0 0 10px rgba(136, 204, 255, 0.3);
+        .upload-area {
+            border: 2px dashed rgba(0, 180, 255, 0.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #00aaff;
+            background: rgba(0, 100, 200, 0.2);
+        }
+        .video-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .video-preview video {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 16px;
         }
         .btn {
             width: 100%;
@@ -79,6 +111,10 @@
             box-shadow: 0 0 15px #00aaff;
             transform: scale(1.02);
         }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .result {
             margin-top: 1rem;
             padding: 1rem;
@@ -88,6 +124,57 @@
         .success { background: rgba(0, 100, 0, 0.6); color: #88ff88; }
         .error { background: rgba(100, 0, 0, 0.6); color: #ff8888; }
         .loading { display: none; text-align: center; margin-top: 1rem; color: #ffaa00; }
+        .tab {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #00aaff33;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            color: #ccc;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            color: #88ccff;
+            border-bottom: 2px solid #88ccff;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .status-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .status-lolos {
+            border: 2px solid #66ff66;
+            background: rgba(0, 100, 0, 0.3);
+        }
+        .status-ditolak {
+            border: 2px solid #ff6666;
+            background: rgba(100, 0, 0, 0.3);
+        }
+        .status-pending {
+            border: 2px solid #ffaa66;
+            background: rgba(100, 80, 0, 0.3);
+        }
+        .wa-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 12px 24px;
+            background: #25D366;
+            color: black;
+            font-weight: bold;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
         .back {
             display: block;
             text-align: center;
@@ -95,86 +182,265 @@
             margin-top: 1.5rem;
             text-decoration: none;
         }
+        .id-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 12px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h1>📝 PENDAFTARAN SELEKSI</h1>
-            <div class="subtitle">Valtz Clan - Cari bakat baru!</div>
+            <h1>🎬 SELEKSI MARGA VALTZ</h1>
+            <div class="subtitle">Upload video preset kamu untuk seleksi</div>
 
-            <div class="form-group">
-                <label>🏷️ Nama Lengkap / Nickname</label>
-                <input type="text" id="nama" placeholder="Contoh: Valtz Warrior">
+            <div id="scheduleStatus"></div>
+
+            <div class="tab">
+                <button class="tab-btn active" data-tab="daftar">📝 DAFTAR</button>
+                <button class="tab-btn" data-tab="cekStatus">🔍 CEK STATUS</button>
             </div>
 
-            <div class="form-group">
-                <label>📍 Asal Daerah / Kota</label>
-                <input type="text" id="asal" placeholder="Contoh: Jakarta, Medan, Surabaya">
+            <!-- TAB DAFTAR -->
+            <div id="tabDaftar" class="tab-content active">
+                <div class="form-group">
+                    <label>🏷️ Nama Lengkap / Nickname</label>
+                    <input type="text" id="nama" placeholder="Contoh: Valtz Warrior">
+                </div>
+                <div class="form-group">
+                    <label>📍 Asal Daerah / Kota</label>
+                    <input type="text" id="asal" placeholder="Contoh: Jakarta, Medan">
+                </div>
+                <div class="form-group">
+                    <label>🎥 Upload Video Preset (Max 20MB)</label>
+                    <div class="upload-area" id="uploadArea">
+                        📂 Klik atau drag video di sini
+                        <input type="file" id="videoInput" accept="video/*" style="display:none;">
+                    </div>
+                    <div class="video-preview" id="videoPreview"></div>
+                </div>
+                <button class="btn" id="submitBtn">✨ KIRIM KE SELEKSI ✨</button>
+                <div class="loading" id="loading">⏳ Mengirim video...</div>
+                <div id="result"></div>
             </div>
 
-            <div class="form-group">
-                <label>🎬 Link Video Preset (Google Drive / YouTube)</label>
-                <input type="text" id="videoLink" placeholder="https://drive.google.com/... atau https://youtu.be/...">
+            <!-- TAB CEK STATUS -->
+            <div id="tabCekStatus" class="tab-content">
+                <div class="form-group">
+                    <label>🔑 Masukkan ID Pendaftaran</label>
+                    <input type="text" id="searchKey" placeholder="Contoh: VLT1746839409123">
+                </div>
+                <button class="btn" id="cekStatusBtn">🔍 CEK STATUS</button>
+                <div id="statusResult"></div>
             </div>
-
-            <button class="btn" id="submitBtn">✨ DAFTAR SELEKSI ✨</button>
-            <div class="loading" id="loading">⏳ Mengirim data...</div>
-            <div id="result"></div>
 
             <a href="index.html" class="back">← KEMBALI KE HALAMAN UTAMA</a>
         </div>
     </div>
 
     <script>
-        // URL WEB APP KAMU
+        // ========== KONFIGURASI ==========
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWstVdpIyQVn0XZsgQeRsvVAEktafaRhErvZDp6t_IfLcibWz4dHT2DKaVGiwbSzSa/exec';
+        const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
+        
+        // JADWAL SELEKSI (format: HH:MM dalam waktu lokal)
+        const BUKA_JAM = 15; // 15 = jam 3 sore
+        const TUTUP_JAM = 20; // 20 = jam 8 malam
+        // ================================
 
+        let selectedVideo = null;
+        let videoURL = null;
+        let lastSubmittedId = null;
+
+        function isSelectionOpen() {
+            const now = new Date();
+            const jam = now.getHours();
+            return jam >= BUKA_JAM && jam < TUTUP_JAM;
+        }
+
+        function updateScheduleDisplay() {
+            const container = document.getElementById('scheduleStatus');
+            const isOpen = isSelectionOpen();
+            
+            if (!isOpen) {
+                container.innerHTML = `
+                    <div class="closed-banner">
+                        <h3>⏰ SELEKSI SEDANG TUTUP</h3>
+                        <p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p>
+                        <p>Silakan coba lagi di jam yang telah ditentukan.</p>
+                    </div>
+                `;
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('uploadArea').style.opacity = '0.5';
+            } else {
+                container.innerHTML = `
+                    <div class="open-banner">
+                        <h3>✅ SELEKSI SEDANG BUKA</h3>
+                        <p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p>
+                    </div>
+                `;
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('uploadArea').style.opacity = '1';
+            }
+        }
+
+        // TAB LOGIC
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('tabDaftar').classList.remove('active');
+                document.getElementById('tabCekStatus').classList.remove('active');
+                if (btn.dataset.tab === 'daftar') {
+                    document.getElementById('tabDaftar').classList.add('active');
+                } else {
+                    document.getElementById('tabCekStatus').classList.add('active');
+                }
+            });
+        });
+
+        // UPLOAD VIDEO
+        const uploadArea = document.getElementById('uploadArea');
+        const videoInput = document.getElementById('videoInput');
+        const videoPreview = document.getElementById('videoPreview');
+
+        uploadArea.addEventListener('click', () => videoInput.click());
+        uploadArea.addEventListener('dragover', (e) => e.preventDefault());
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('video/')) handleVideo(file);
+        });
+        videoInput.addEventListener('change', (e) => {
+            if (videoInput.files.length) handleVideo(videoInput.files[0]);
+        });
+
+        function handleVideo(file) {
+            if (file.size > 20 * 1024 * 1024) {
+                alert('Ukuran video maksimal 20MB!');
+                return;
+            }
+            selectedVideo = file;
+            if (videoURL) URL.revokeObjectURL(videoURL);
+            videoURL = URL.createObjectURL(file);
+            videoPreview.innerHTML = `<video controls src="${videoURL}" style="width:100%; border-radius:12px;"></video>`;
+        }
+
+        // SUBMIT
         document.getElementById('submitBtn').addEventListener('click', async () => {
+            if (!isSelectionOpen()) {
+                alert('Seleksi sedang tutup! Buka jam ' + BUKA_JAM + ':00 - ' + TUTUP_JAM + ':00');
+                return;
+            }
+
             const nama = document.getElementById('nama').value.trim();
             const asal = document.getElementById('asal').value.trim();
-            const videoLink = document.getElementById('videoLink').value.trim();
 
-            if (!nama || !asal || !videoLink) {
-                document.getElementById('result').innerHTML = '<div class="result error">⚠️ Isi semua data!</div>';
+            if (!nama || !asal || !selectedVideo) {
+                document.getElementById('result').innerHTML = '<div class="result error">⚠️ Isi semua data dan upload video!</div>';
                 return;
             }
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('submitBtn').disabled = true;
 
+            const formData = new FormData();
+            formData.append('action', 'daftar');
+            formData.append('nama', nama);
+            formData.append('asal', asal);
+            formData.append('video', selectedVideo);
+
             try {
-                await fetch(APPS_SCRIPT_URL, {
+                const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({
-                        action: 'daftar',
-                        nama: nama,
-                        asal: asal,
-                        videoLink: videoLink
-                    })
+                    body: formData
                 });
+                const data = await response.json();
 
-                document.getElementById('result').innerHTML = `
-                    <div class="result success">
-                        ✅ PENDAFTARAN BERHASIL!<br><br>
-                        Data kamu sudah masuk ke admin.<br>
-                        Kamu akan mendapatkan notifikasi jika lolos seleksi.<br><br>
-                        Terima kasih sudah mendaftar di Valtz Clan! ⚔️
-                    </div>
-                `;
-                document.getElementById('nama').value = '';
-                document.getElementById('asal').value = '';
-                document.getElementById('videoLink').value = '';
-
+                if (data.success) {
+                    lastSubmittedId = data.id;
+                    document.getElementById('result').innerHTML = `
+                        <div class="result success">
+                            ✅ PENDAFTARAN BERHASIL!<br><br>
+                            <div class="id-box"><strong>ID PENDAFTARAN:</strong> ${data.id}</div>
+                            <strong>📌 SIMPAN ID INI!</strong><br>
+                            Gunakan ID di atas untuk cek status kelulusan nanti.<br><br>
+                            Video akan segera dirating oleh tim Valtz.
+                        </div>
+                    `;
+                    document.getElementById('nama').value = '';
+                    document.getElementById('asal').value = '';
+                    videoPreview.innerHTML = '';
+                    selectedVideo = null;
+                } else {
+                    throw new Error(data.error || 'Gagal mendaftar');
+                }
             } catch (err) {
-                document.getElementById('result').innerHTML = `<div class="result error">❌ Gagal mendaftar: ${err.message}<br>Coba lagi nanti.</div>`;
+                document.getElementById('result').innerHTML = `<div class="result error">❌ ${err.message}</div>`;
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('submitBtn').disabled = false;
             }
         });
+
+        // CEK STATUS
+        document.getElementById('cekStatusBtn').addEventListener('click', async () => {
+            const searchKey = document.getElementById('searchKey').value.trim();
+            if (!searchKey) {
+                document.getElementById('statusResult').innerHTML = '<div class="result error">⚠️ Masukkan ID pendaftaran!</div>';
+                return;
+            }
+
+            document.getElementById('statusResult').innerHTML = '<div class="loading" style="display:block;">⏳ Mengecek status...</div>';
+
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=cekStatus&key=${encodeURIComponent(searchKey)}`);
+                const data = await response.json();
+
+                if (data.found) {
+                    if (data.status === 'lolos') {
+                        document.getElementById('statusResult').innerHTML = `
+                            <div class="status-card status-lolos">
+                                🎉 <strong>SELAMAT! ANDA LOLOS SELEKSI!</strong> 🎉<br><br>
+                                <strong>Nama:</strong> ${data.nama}<br>
+                                <strong>ID:</strong> ${data.id}<br><br>
+                                Video preset Anda diterima oleh tim Valtz!<br><br>
+                                <a href="${WA_GROUP_LINK}" target="_blank" class="wa-btn">🔥 MASUK GRUP UTAMA VALTZ 🔥</a>
+                            </div>
+                        `;
+                    } else if (data.status === 'ditolak') {
+                        document.getElementById('statusResult').innerHTML = `
+                            <div class="status-card status-ditolak">
+                                ❌ <strong>MAAF, ANDA BELUM LOLOS SELEKSI</strong> ❌<br><br>
+                                <strong>Nama:</strong> ${data.nama}<br>
+                                <strong>ID:</strong> ${data.id}<br><br>
+                                Jangan berkecil hati! Coba lagi di gelombang berikutnya.
+                            </div>
+                        `;
+                    } else {
+                        document.getElementById('statusResult').innerHTML = `
+                            <div class="status-card status-pending">
+                                ⏳ <strong>STATUS: MENUNGGU VERIFIKASI</strong><br><br>
+                                <strong>Nama:</strong> ${data.nama}<br>
+                                <strong>ID:</strong> ${data.id}<br><br>
+                                Video Anda sedang dirating oleh tim Valtz.<br>
+                                Cek secara berkala ya!
+                            </div>
+                        `;
+                    }
+                } else {
+                    document.getElementById('statusResult').innerHTML = '<div class="result error">🔍 Data tidak ditemukan. Periksa ID Anda.</div>';
+                }
+            } catch (err) {
+                document.getElementById('statusResult').innerHTML = `<div class="result error">❌ Error: ${err.message}</div>`;
+            }
+        });
+
+        updateScheduleDisplay();
+        setInterval(updateScheduleDisplay, 60000);
     </script>
 </body>
 </html>

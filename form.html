@@ -219,7 +219,7 @@
     <script>
         // ========== KONFIGURASI ==========
         // URL WEB APP TERBARU
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmQLCrAvWX55Qsi4P1QwyGLYLMtQ1Dwi9uz_epkkGv0ajQMtB1K6JQj_0I6BRt6a_2/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgEvRjPo7zE-IlZvfKFbUZd5sGhfpQWLdTAJTNTTq-9U6LXCYbgNdsZs0msotlHru3/exec';
         
         // LINK WA GRUP UTAMA
         const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
@@ -228,15 +228,10 @@
         function isSelectionOpen() {
             const now = new Date();
             const jam = now.getHours();
-            
             // Sesi 1: jam 12 siang sampai jam 24 (12 malam)
-            if (jam >= 12 && jam < 24) {
-                return true;
-            }
+            if (jam >= 12 && jam < 24) return true;
             // Sesi 2: jam 7 pagi sampai jam 8 pagi
-            if (jam >= 7 && jam < 8) {
-                return true;
-            }
+            if (jam >= 7 && jam < 8) return true;
             return false;
         }
         
@@ -247,7 +242,6 @@
         function updateScheduleDisplay() {
             const container = document.getElementById('scheduleStatus');
             const isOpen = isSelectionOpen();
-            
             if (!isOpen) {
                 container.innerHTML = `
                     <div class="banner tutup">
@@ -322,31 +316,22 @@
                 alert('Seleksi sedang tutup! ' + getJadwalText());
                 return;
             }
-            
             const nama = document.getElementById('nama').value.trim();
             const asal = document.getElementById('asal').value.trim();
-            
             if (!nama || !asal || !selectedVideo) {
                 document.getElementById('result').innerHTML = '<div class="result error">⚠️ Isi semua data dan upload video!</div>';
                 return;
             }
-            
             document.getElementById('loading').style.display = 'block';
             document.getElementById('submitBtn').disabled = true;
-            
             const formData = new FormData();
             formData.append('action', 'daftar');
             formData.append('nama', nama);
             formData.append('asal', asal);
             formData.append('video', selectedVideo);
-            
             try {
-                const response = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData
-                });
+                const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await response.json();
-                
                 if (data.success) {
                     document.getElementById('result').innerHTML = `
                         <div class="result success">
@@ -378,13 +363,10 @@
                 document.getElementById('statusResult').innerHTML = '<div class="result error">⚠️ Masukkan ID pendaftaran!</div>';
                 return;
             }
-            
             document.getElementById('statusResult').innerHTML = '<div class="loading" style="display:block;">⏳ Mengecek status...</div>';
-            
             try {
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=cekStatus&key=${encodeURIComponent(searchKey)}`);
                 const data = await response.json();
-                
                 if (data.found) {
                     if (data.status === 'lolos') {
                         document.getElementById('statusResult').innerHTML = `

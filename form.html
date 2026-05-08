@@ -41,21 +41,19 @@
         }
         h1 { color: #88ccff; text-align: center; margin-bottom: 0.5rem; }
         .subtitle { color: #aaa; text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem; }
-        .closed-banner {
-            background: rgba(255, 100, 100, 0.3);
-            border: 1px solid #ff6666;
+        .banner {
             border-radius: 16px;
             padding: 1rem;
             text-align: center;
             margin-bottom: 1.5rem;
         }
-        .open-banner {
+        .buka {
             background: rgba(100, 255, 100, 0.2);
             border: 1px solid #66ff66;
-            border-radius: 16px;
-            padding: 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
+        }
+        .tutup {
+            background: rgba(255, 100, 100, 0.3);
+            border: 1px solid #ff6666;
         }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label {
@@ -225,34 +223,64 @@
     </div>
 
     <script>
+        // ========== KONFIGURASI ==========
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzN1gbycSg7oSdfg2phxArdj58U7Hn2x5mpCKU0SUHV-1H7d_s_kAl5CO3M6ilj6XEd/exec';
         const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
         
-        const BUKA_JAM = 15;
-        const TUTUP_JAM = 20;
-
-        let selectedVideo = null;
-        let videoURL = null;
-
+        // JADWAL SELEKSI (2 sesi buka)
+        // Sesi 1: 12:00 siang - 00:00 (12 malam)
+        // Sesi 2: 07:00 pagi - 08:00 pagi
         function isSelectionOpen() {
             const now = new Date();
             const jam = now.getHours();
-            return jam >= BUKA_JAM && jam < TUTUP_JAM;
+            const menit = now.getMinutes();
+            
+            // Sesi 1: jam 12 siang sampai sebelum jam 24 (12 malam)
+            if (jam >= 12 && jam < 24) {
+                return true;
+            }
+            // Sesi 2: jam 7 pagi sampai jam 8 pagi (tepat jam 7, termasuk sampai 7:59)
+            if (jam >= 7 && jam < 8) {
+                return true;
+            }
+            // Selain itu tutup
+            return false;
         }
-
+        
+        function getJadwalText() {
+            return "Buka: 12:00 siang - 12:00 malam & 07:00 pagi - 08:00 pagi";
+        }
+        
         function updateScheduleDisplay() {
             const container = document.getElementById('scheduleStatus');
             const isOpen = isSelectionOpen();
+            
             if (!isOpen) {
-                container.innerHTML = `<div class="closed-banner"><h3>⏰ SELEKSI SEDANG TUTUP</h3><p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p></div>`;
+                container.innerHTML = `
+                    <div class="banner tutup">
+                        <h3>⏰ SELEKSI SEDANG TUTUP</h3>
+                        <p>${getJadwalText()}</p>
+                        <p>Seleksi akan buka kembali pada jam 07:00 pagi atau jam 12:00 siang.</p>
+                    </div>
+                `;
                 document.getElementById('submitBtn').disabled = true;
                 document.getElementById('uploadArea').style.opacity = '0.5';
             } else {
-                container.innerHTML = `<div class="open-banner"><h3>✅ SELEKSI SEDANG BUKA</h3><p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p></div>`;
+                container.innerHTML = `
+                    <div class="banner buka">
+                        <h3>✅ SELEKSI SEDANG BUKA</h3>
+                        <p>${getJadwalText()}</p>
+                        <p>Silakan daftar dan upload video preset kamu!</p>
+                    </div>
+                `;
                 document.getElementById('submitBtn').disabled = false;
                 document.getElementById('uploadArea').style.opacity = '1';
             }
         }
+
+        // ========== SISA KODE TIDAK BERUBAH (upload video, cek status, dll) ==========
+        let selectedVideo = null;
+        let videoURL = null;
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -296,7 +324,7 @@
 
         document.getElementById('submitBtn').addEventListener('click', async () => {
             if (!isSelectionOpen()) {
-                alert('Seleksi sedang tutup! Buka jam ' + BUKA_JAM + ':00 - ' + TUTUP_JAM + ':00');
+                alert('Seleksi sedang tutup! ' + getJadwalText());
                 return;
             }
             const nama = document.getElementById('nama').value.trim();

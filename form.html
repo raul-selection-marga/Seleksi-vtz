@@ -111,10 +111,7 @@
             box-shadow: 0 0 15px #00aaff;
             transform: scale(1.02);
         }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .result {
             margin-top: 1rem;
             padding: 1rem;
@@ -139,10 +136,7 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .tab-btn.active {
-            color: #88ccff;
-            border-bottom: 2px solid #88ccff;
-        }
+        .tab-btn.active { color: #88ccff; border-bottom: 2px solid #88ccff; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .status-card {
@@ -152,18 +146,9 @@
             text-align: center;
             margin-top: 1rem;
         }
-        .status-lolos {
-            border: 2px solid #66ff66;
-            background: rgba(0, 100, 0, 0.3);
-        }
-        .status-ditolak {
-            border: 2px solid #ff6666;
-            background: rgba(100, 0, 0, 0.3);
-        }
-        .status-pending {
-            border: 2px solid #ffaa66;
-            background: rgba(100, 80, 0, 0.3);
-        }
+        .status-lolos { border: 2px solid #66ff66; background: rgba(0, 100, 0, 0.3); }
+        .status-ditolak { border: 2px solid #ff6666; background: rgba(100, 0, 0, 0.3); }
+        .status-pending { border: 2px solid #ffaa66; background: rgba(100, 80, 0, 0.3); }
         .wa-btn {
             display: inline-block;
             margin-top: 1rem;
@@ -204,7 +189,6 @@
                 <button class="tab-btn" data-tab="cekStatus">🔍 CEK STATUS</button>
             </div>
 
-            <!-- TAB DAFTAR -->
             <div id="tabDaftar" class="tab-content active">
                 <div class="form-group">
                     <label>🏷️ Nama Lengkap / Nickname</label>
@@ -227,7 +211,6 @@
                 <div id="result"></div>
             </div>
 
-            <!-- TAB CEK STATUS -->
             <div id="tabCekStatus" class="tab-content">
                 <div class="form-group">
                     <label>🔑 Masukkan ID Pendaftaran</label>
@@ -242,18 +225,14 @@
     </div>
 
     <script>
-        // ========== KONFIGURASI ==========
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWstVdpIyQVn0XZsgQeRsvVAEktafaRhErvZDp6t_IfLcibWz4dHT2DKaVGiwbSzSa/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzN1gbycSg7oSdfg2phxArdj58U7Hn2x5mpCKU0SUHV-1H7d_s_kAl5CO3M6ilj6XEd/exec';
         const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
         
-        // JADWAL SELEKSI (format: HH:MM dalam waktu lokal)
-        const BUKA_JAM = 15; // 15 = jam 3 sore
-        const TUTUP_JAM = 20; // 20 = jam 8 malam
-        // ================================
+        const BUKA_JAM = 15;
+        const TUTUP_JAM = 20;
 
         let selectedVideo = null;
         let videoURL = null;
-        let lastSubmittedId = null;
 
         function isSelectionOpen() {
             const now = new Date();
@@ -264,30 +243,17 @@
         function updateScheduleDisplay() {
             const container = document.getElementById('scheduleStatus');
             const isOpen = isSelectionOpen();
-            
             if (!isOpen) {
-                container.innerHTML = `
-                    <div class="closed-banner">
-                        <h3>⏰ SELEKSI SEDANG TUTUP</h3>
-                        <p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p>
-                        <p>Silakan coba lagi di jam yang telah ditentukan.</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="closed-banner"><h3>⏰ SELEKSI SEDANG TUTUP</h3><p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p></div>`;
                 document.getElementById('submitBtn').disabled = true;
                 document.getElementById('uploadArea').style.opacity = '0.5';
             } else {
-                container.innerHTML = `
-                    <div class="open-banner">
-                        <h3>✅ SELEKSI SEDANG BUKA</h3>
-                        <p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="open-banner"><h3>✅ SELEKSI SEDANG BUKA</h3><p>Jam seleksi: ${BUKA_JAM}:00 - ${TUTUP_JAM}:00</p></div>`;
                 document.getElementById('submitBtn').disabled = false;
                 document.getElementById('uploadArea').style.opacity = '1';
             }
         }
 
-        // TAB LOGIC
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -302,7 +268,6 @@
             });
         });
 
-        // UPLOAD VIDEO
         const uploadArea = document.getElementById('uploadArea');
         const videoInput = document.getElementById('videoInput');
         const videoPreview = document.getElementById('videoPreview');
@@ -329,48 +294,29 @@
             videoPreview.innerHTML = `<video controls src="${videoURL}" style="width:100%; border-radius:12px;"></video>`;
         }
 
-        // SUBMIT
         document.getElementById('submitBtn').addEventListener('click', async () => {
             if (!isSelectionOpen()) {
                 alert('Seleksi sedang tutup! Buka jam ' + BUKA_JAM + ':00 - ' + TUTUP_JAM + ':00');
                 return;
             }
-
             const nama = document.getElementById('nama').value.trim();
             const asal = document.getElementById('asal').value.trim();
-
             if (!nama || !asal || !selectedVideo) {
                 document.getElementById('result').innerHTML = '<div class="result error">⚠️ Isi semua data dan upload video!</div>';
                 return;
             }
-
             document.getElementById('loading').style.display = 'block';
             document.getElementById('submitBtn').disabled = true;
-
             const formData = new FormData();
             formData.append('action', 'daftar');
             formData.append('nama', nama);
             formData.append('asal', asal);
             formData.append('video', selectedVideo);
-
             try {
-                const response = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData
-                });
+                const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await response.json();
-
                 if (data.success) {
-                    lastSubmittedId = data.id;
-                    document.getElementById('result').innerHTML = `
-                        <div class="result success">
-                            ✅ PENDAFTARAN BERHASIL!<br><br>
-                            <div class="id-box"><strong>ID PENDAFTARAN:</strong> ${data.id}</div>
-                            <strong>📌 SIMPAN ID INI!</strong><br>
-                            Gunakan ID di atas untuk cek status kelulusan nanti.<br><br>
-                            Video akan segera dirating oleh tim Valtz.
-                        </div>
-                    `;
+                    document.getElementById('result').innerHTML = `<div class="result success">✅ PENDAFTARAN BERHASIL!<br><br><div class="id-box"><strong>ID PENDAFTARAN:</strong> ${data.id}</div><strong>📌 SIMPAN ID INI!</strong><br>Gunakan ID di atas untuk cek status kelulusan nanti.</div>`;
                     document.getElementById('nama').value = '';
                     document.getElementById('asal').value = '';
                     videoPreview.innerHTML = '';
@@ -386,50 +332,23 @@
             }
         });
 
-        // CEK STATUS
         document.getElementById('cekStatusBtn').addEventListener('click', async () => {
             const searchKey = document.getElementById('searchKey').value.trim();
             if (!searchKey) {
                 document.getElementById('statusResult').innerHTML = '<div class="result error">⚠️ Masukkan ID pendaftaran!</div>';
                 return;
             }
-
             document.getElementById('statusResult').innerHTML = '<div class="loading" style="display:block;">⏳ Mengecek status...</div>';
-
             try {
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=cekStatus&key=${encodeURIComponent(searchKey)}`);
                 const data = await response.json();
-
                 if (data.found) {
                     if (data.status === 'lolos') {
-                        document.getElementById('statusResult').innerHTML = `
-                            <div class="status-card status-lolos">
-                                🎉 <strong>SELAMAT! ANDA LOLOS SELEKSI!</strong> 🎉<br><br>
-                                <strong>Nama:</strong> ${data.nama}<br>
-                                <strong>ID:</strong> ${data.id}<br><br>
-                                Video preset Anda diterima oleh tim Valtz!<br><br>
-                                <a href="${WA_GROUP_LINK}" target="_blank" class="wa-btn">🔥 MASUK GRUP UTAMA VALTZ 🔥</a>
-                            </div>
-                        `;
+                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-lolos">🎉 <strong>SELAMAT! ANDA LOLOS SELEKSI!</strong> 🎉<br><br><strong>Nama:</strong> ${data.nama}<br><strong>ID:</strong> ${data.id}<br><br><a href="${WA_GROUP_LINK}" target="_blank" class="wa-btn">🔥 MASUK GRUP UTAMA VALTZ 🔥</a></div>`;
                     } else if (data.status === 'ditolak') {
-                        document.getElementById('statusResult').innerHTML = `
-                            <div class="status-card status-ditolak">
-                                ❌ <strong>MAAF, ANDA BELUM LOLOS SELEKSI</strong> ❌<br><br>
-                                <strong>Nama:</strong> ${data.nama}<br>
-                                <strong>ID:</strong> ${data.id}<br><br>
-                                Jangan berkecil hati! Coba lagi di gelombang berikutnya.
-                            </div>
-                        `;
+                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-ditolak">❌ <strong>MAAF, ANDA BELUM LOLOS SELEKSI</strong> ❌<br><br><strong>Nama:</strong> ${data.nama}<br><strong>ID:</strong> ${data.id}<br><br>Jangan berkecil hati! Coba lagi di gelombang berikutnya.</div>`;
                     } else {
-                        document.getElementById('statusResult').innerHTML = `
-                            <div class="status-card status-pending">
-                                ⏳ <strong>STATUS: MENUNGGU VERIFIKASI</strong><br><br>
-                                <strong>Nama:</strong> ${data.nama}<br>
-                                <strong>ID:</strong> ${data.id}<br><br>
-                                Video Anda sedang dirating oleh tim Valtz.<br>
-                                Cek secara berkala ya!
-                            </div>
-                        `;
+                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-pending">⏳ <strong>STATUS: MENUNGGU VERIFIKASI</strong><br><br><strong>Nama:</strong> ${data.nama}<br><strong>ID:</strong> ${data.id}<br><br>Video Anda sedang dirating oleh tim Valtz. Cek secara berkala ya!</div>`;
                     }
                 } else {
                     document.getElementById('statusResult').innerHTML = '<div class="result error">🔍 Data tidak ditemukan. Periksa ID Anda.</div>';

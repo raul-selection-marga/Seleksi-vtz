@@ -217,12 +217,11 @@
     </div>
 
     <script>
-        // ========== BACKEND VERCEL ==========
-        const APPS_SCRIPT_URL = 'https://seleksi-vtz.vercel.app/api';
+        // ========== URL WEB APP TERBARU ==========
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTmKpuBJJF9DxIMRFCssTInmB7bnZngQNua5msnXhuOkWZiD-Ehhbmp_QYcFszpTwj/exec';
         
         const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
         
-        // JADWAL SELEKSI (2 sesi buka)
         function isSelectionOpen() {
             const now = new Date();
             const jam = now.getHours();
@@ -249,7 +248,6 @@
             }
         }
 
-        // TAB LOGIC
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -264,7 +262,6 @@
             });
         });
 
-        // UPLOAD VIDEO
         let selectedVideo = null;
         let videoURL = null;
 
@@ -294,7 +291,6 @@
             videoPreview.innerHTML = `<video controls src="${videoURL}" style="width:100%; border-radius:12px;"></video>`;
         }
 
-        // SUBMIT PENDAFTARAN
         document.getElementById('submitBtn').addEventListener('click', async () => {
             if (!isSelectionOpen()) {
                 alert('Seleksi sedang tutup! ' + getJadwalText());
@@ -308,17 +304,14 @@
             }
             document.getElementById('loading').style.display = 'block';
             document.getElementById('submitBtn').disabled = true;
-            
             const formData = new FormData();
-            formData.append('action', 'daftar');
+            formData.append('action', 'uploadVideo');
             formData.append('nama', nama);
             formData.append('asal', asal);
             formData.append('video', selectedVideo);
-            
             try {
                 const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await response.json();
-                
                 if (data.success) {
                     document.getElementById('result').innerHTML = `<div class="result success">✅ PENDAFTARAN BERHASIL!<br><br><div class="id-box"><strong>ID PENDAFTARAN:</strong> ${data.id}</div><strong>📌 SIMPAN ID INI!</strong><br>Gunakan ID di atas untuk cek status kelulusan nanti.</div>`;
                     document.getElementById('nama').value = '';
@@ -336,7 +329,6 @@
             }
         });
 
-        // CEK STATUS
         document.getElementById('cekStatusBtn').addEventListener('click', async () => {
             const searchKey = document.getElementById('searchKey').value.trim();
             if (!searchKey) {
@@ -345,15 +337,16 @@
             }
             document.getElementById('statusResult').innerHTML = '<div class="loading" style="display:block;">⏳ Mengecek status...</div>';
             try {
-                const response = await fetch(`${APPS_SCRIPT_URL}?action=cekStatus&key=${encodeURIComponent(searchKey)}`);
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getAll`);
                 const data = await response.json();
-                if (data.found) {
-                    if (data.status === 'lolos') {
-                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-lolos">🎉 <strong>SELAMAT! ANDA LOLOS SELEKSI!</strong> 🎉<br><br><strong>Nama:</strong> ${data.nama}<br><strong>ID:</strong> ${data.id}<br><br><a href="${WA_GROUP_LINK}" target="_blank" class="wa-btn">🔥 MASUK GRUP UTAMA VALTZ 🔥</a></div>`;
-                    } else if (data.status === 'ditolak') {
-                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-ditolak">❌ <strong>MAAF, ANDA BELUM LOLOS SELEKSI</strong> ❌<br><br><strong>Nama:</strong> ${data.nama}<br><strong>ID:</strong> ${data.id}<br><br>Jangan berkecil hati! Coba lagi di gelombang berikutnya.</div>`;
+                const peserta = data.find(p => p.id === searchKey);
+                if (peserta) {
+                    if (peserta.status === 'lolos') {
+                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-lolos">🎉 <strong>SELAMAT! ANDA LOLOS SELEKSI!</strong> 🎉<br><br><strong>Nama:</strong> ${peserta.nama}<br><strong>ID:</strong> ${peserta.id}<br><br><a href="${WA_GROUP_LINK}" target="_blank" class="wa-btn">🔥 MASUK GRUP UTAMA VALTZ 🔥</a></div>`;
+                    } else if (peserta.status === 'ditolak') {
+                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-ditolak">❌ <strong>MAAF, ANDA BELUM LOLOS SELEKSI</strong> ❌<br><br><strong>Nama:</strong> ${peserta.nama}<br><strong>ID:</strong> ${peserta.id}<br><br>Jangan berkecil hati! Coba lagi di gelombang berikutnya.</div>`;
                     } else {
-                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-pending">⏳ <strong>STATUS: MENUNGGU VERIFIKASI</strong><br><br><strong>Nama:</strong> ${data.nama}<br><strong>ID:</strong> ${data.id}<br><br>Video Anda sedang dirating oleh tim Valtz. Cek secara berkala ya!</div>`;
+                        document.getElementById('statusResult').innerHTML = `<div class="status-card status-pending">⏳ <strong>STATUS: MENUNGGU VERIFIKASI</strong><br><br><strong>Nama:</strong> ${peserta.nama}<br><strong>ID:</strong> ${peserta.id}<br><br>Video Anda sedang dirating oleh tim Valtz. Cek secara berkala ya!</div>`;
                     }
                 } else {
                     document.getElementById('statusResult').innerHTML = '<div class="result error">🔍 Data tidak ditemukan. Periksa ID Anda.</div>';

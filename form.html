@@ -217,15 +217,19 @@
     </div>
 
     <script>
-        // ========== URL WEB APP TERBARU ==========
+        // ========== KONFIGURASI ==========
+        // URL Web App (APPS SCRIPT) - Gunakan URL milikmu sendiri
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTmKpuBJJF9DxIMRFCssTInmB7bnZngQNua5msnXhuOkWZiD-Ehhbmp_QYcFszpTwj/exec';
         
         const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
         
+        // JADWAL SELEKSI (2 sesi buka)
         function isSelectionOpen() {
             const now = new Date();
             const jam = now.getHours();
+            // Sesi 1: jam 12 siang sampai jam 24 (12 malam)
             if (jam >= 12 && jam < 24) return true;
+            // Sesi 2: jam 7 pagi sampai jam 8 pagi
             if (jam >= 7 && jam < 8) return true;
             return false;
         }
@@ -248,6 +252,7 @@
             }
         }
 
+        // TAB LOGIC
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -262,6 +267,7 @@
             });
         });
 
+        // UPLOAD VIDEO
         let selectedVideo = null;
         let videoURL = null;
 
@@ -291,6 +297,7 @@
             videoPreview.innerHTML = `<video controls src="${videoURL}" style="width:100%; border-radius:12px;"></video>`;
         }
 
+        // SUBMIT PENDAFTARAN
         document.getElementById('submitBtn').addEventListener('click', async () => {
             if (!isSelectionOpen()) {
                 alert('Seleksi sedang tutup! ' + getJadwalText());
@@ -329,6 +336,7 @@
             }
         });
 
+        // CEK STATUS
         document.getElementById('cekStatusBtn').addEventListener('click', async () => {
             const searchKey = document.getElementById('searchKey').value.trim();
             if (!searchKey) {

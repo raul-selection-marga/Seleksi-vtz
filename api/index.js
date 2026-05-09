@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  // CORS biar bisa diakses dari mana aja
+  // CORS biar bisa diakses dari mana saja
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -29,6 +29,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ success: false, error: 'Data tidak lengkap' });
       }
 
+      // Kirim video ke Telegram
       const telegramForm = new FormData();
       telegramForm.append('chat_id', CHAT_ID);
       telegramForm.append('video', video);
@@ -49,10 +50,11 @@ export default async function handler(req, res) {
     }
 
     if (action === 'cekStatus') {
+      // Sementara pakai data dummy
       return res.status(200).json({
         found: true,
-        id: 'VLT123',
-        nama: 'Contoh Peserta',
+        id: 'VLT12345',
+        nama: 'Peserta Contoh',
         asal: 'Jakarta',
         status: 'pending'
       });
@@ -63,4 +65,4 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
-                                     }
+  }

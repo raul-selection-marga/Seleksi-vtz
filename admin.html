@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Valtz Admin - Video & Status</title>
+    <title>Valtz Admin - Panel</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,8 +13,6 @@
             padding-bottom: 80px;
         }
         .container { max-width: 600px; margin: 0 auto; }
-        
-        /* Header */
         .header {
             background: linear-gradient(135deg, #1a2a4a, #0a1a2f);
             padding: 20px;
@@ -24,54 +22,26 @@
             border: 1px solid #00aaff;
         }
         .header h1 { color: #88ccff; font-size: 1.6rem; }
-        
-        /* Tab */
-        .tab-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: rgba(0,0,0,0.4);
-            border-radius: 60px;
-            padding: 5px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 40px;
-            background: transparent;
-            color: #aaa;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .tab-btn.active {
-            background: #00aaff;
-            color: white;
-            box-shadow: 0 0 10px #00aaff;
-        }
-        
-        /* Statistik */
         .stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
         .stat-card {
             background: rgba(0,0,0,0.6);
-            padding: 12px;
-            border-radius: 20px;
+            padding: 10px;
+            border-radius: 16px;
             text-align: center;
             border: 1px solid #00aaff;
         }
-        .stat-number { font-size: 1.8rem; font-weight: bold; color: #ffaa00; }
-        .stat-label { font-size: 0.7rem; color: #ccc; }
-        
-        /* Filter */
+        .stat-number { font-size: 1.4rem; font-weight: bold; color: #ffaa00; }
+        .stat-label { font-size: 0.6rem; color: #ccc; }
         .filter-bar {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         .filter-bar input, .filter-bar select {
             flex: 1;
@@ -81,42 +51,40 @@
             border-radius: 30px;
             color: white;
         }
-        
-        /* List Peserta */
+        .refresh-btn {
+            background: #00aaff;
+            border: none;
+            padding: 0 15px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+        }
         .participant-card {
             background: rgba(10,20,35,0.9);
-            border-radius: 24px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 14px;
             margin-bottom: 12px;
             border: 1px solid #2a4a6e;
         }
-        .participant-name {
-            font-size: 1.2rem;
-            font-weight: bold;
+        .participant-name { font-size: 1.1rem; font-weight: bold; color: #88ccff; }
+        .participant-id { font-size: 0.65rem; color: #aaa; font-family: monospace; margin: 4px 0; }
+        .video-link {
+            display: inline-block;
+            margin: 8px 0;
             color: #88ccff;
-        }
-        .participant-id {
-            font-size: 0.7rem;
-            color: #aaa;
-            font-family: monospace;
-        }
-        .video-player {
-            width: 100%;
-            margin: 10px 0;
-            border-radius: 16px;
-            background: #000;
+            font-size: 0.75rem;
+            word-break: break-all;
         }
         .status-badge {
             display: inline-block;
             padding: 4px 12px;
-            border-radius: 30px;
+            border-radius: 20px;
             font-size: 0.7rem;
             font-weight: bold;
         }
         .status-pending { background: #ff9800; color: #000; }
         .status-lolos { background: #4caf50; color: #fff; }
         .status-ditolak { background: #f44336; color: #fff; }
-        
         .status-select {
             width: 100%;
             margin-top: 12px;
@@ -125,8 +93,8 @@
             border: 1px solid #00aaff;
             border-radius: 30px;
             color: white;
+            cursor: pointer;
         }
-        
         .back-home {
             position: fixed;
             bottom: 20px;
@@ -138,6 +106,12 @@
             color: white;
             text-decoration: none;
             font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
         }
     </style>
 </head>
@@ -145,65 +119,65 @@
     <div class="container">
         <div class="header">
             <h1>⚔️ VALTZ ADMIN ⚔️</h1>
-            <p>Kelola peserta & video seleksi</p>
+            <p>Data Real dari Spreadsheet</p>
         </div>
 
-        <!-- TAB -->
-        <div class="tab-bar">
-            <button class="tab-btn active" id="tabStatusBtn">📋 STATUS</button>
-            <button class="tab-btn" id="tabVideoBtn">🎥 VIDEO</button>
-        </div>
-
-        <!-- STATISTIK -->
         <div class="stats" id="statsArea">
             <div class="stat-card"><div class="stat-number" id="totalCount">0</div><div class="stat-label">Total</div></div>
+            <div class="stat-card"><div class="stat-number" id="pendingCount">0</div><div class="stat-label">Pending</div></div>
             <div class="stat-card"><div class="stat-number" id="lolosCount">0</div><div class="stat-label">Lolos</div></div>
             <div class="stat-card"><div class="stat-number" id="ditolakCount">0</div><div class="stat-label">Ditolak</div></div>
         </div>
 
-        <!-- FILTER -->
-        <div class="filter-bar" id="filterBar">
-            <input type="text" id="searchInput" placeholder="🔍 Cari nama / ID...">
-            <select id="filterStatus">
+        <div class="filter-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Cari nama / ID..." onkeyup="filterParticipants()">
+            <select id="filterStatus" onchange="filterParticipants()">
                 <option value="all">Semua</option>
-                <option value="pending">Menunggu</option>
+                <option value="pending">Pending</option>
                 <option value="lolos">Lolos</option>
                 <option value="ditolak">Ditolak</option>
             </select>
-            <button class="refresh-btn" onclick="loadData()" style="background:#00aaff; border:none; padding:0 15px; border-radius:30px;">🔄</button>
+            <button class="refresh-btn" onclick="loadData()">🔄</button>
         </div>
 
-        <!-- DAFTAR PESERTA -->
         <div id="participantList" class="participant-list">
-            <div class="loading-state">⏳ Memuat data...</div>
+            <div class="empty-state">⏳ Memuat data...</div>
         </div>
 
         <a href="index.html" class="back-home">← KEMBALI KE WEBSITE</a>
     </div>
 
     <script>
-        // ============== DATA SAMPLE + VIDEO ==============
-        let allPeserta = [
-            { id: "VLT1746839409123", nama: "Raul", asal: "Cianjur", video: "sample.mp4", status: "pending", tanggal: "2025-05-09" },
-            { id: "VLT1746839501234", nama: "Valtz Warrior", asal: "Jakarta", video: "sample2.mp4", status: "lolos", tanggal: "2025-05-09" },
-            { id: "VLT1746839605678", nama: "Ksatria Hitam", asal: "Bandung", video: "sample3.mp4", status: "ditolak", tanggal: "2025-05-08" }
-        ];
-
-        let currentTab = 'status';
+        // ========== URL APPS SCRIPT ==========
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTmKpuBJJF9DxIMRFCssTInmB7bnZngQNua5msnXhuOkWZiD-Ehhbmp_QYcFszpTwj/exec';
+        
+        let allPeserta = [];
 
         async function loadData() {
-            // Nanti ganti fetch ke spreadsheet
-            renderStats();
-            renderList();
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getAll`);
+                const data = await response.json();
+                allPeserta = data;
+                renderStats();
+                renderList();
+            } catch (err) {
+                document.getElementById('participantList').innerHTML = `<div class="empty-state">❌ Gagal load data: ${err.message}</div>`;
+            }
         }
 
         function renderStats() {
             const total = allPeserta.length;
+            const pending = allPeserta.filter(p => p.status === 'pending').length;
             const lolos = allPeserta.filter(p => p.status === 'lolos').length;
             const ditolak = allPeserta.filter(p => p.status === 'ditolak').length;
             document.getElementById('totalCount').innerText = total;
+            document.getElementById('pendingCount').innerText = pending;
             document.getElementById('lolosCount').innerText = lolos;
             document.getElementById('ditolakCount').innerText = ditolak;
+        }
+
+        function filterParticipants() {
+            renderList();
         }
 
         function renderList() {
@@ -223,81 +197,46 @@
                 return;
             }
             
-            if (currentTab === 'status') {
-                // TAMPILAN STATUS + UBAH STATUS
-                container.innerHTML = filtered.map(p => `
-                    <div class="participant-card">
-                        <div class="participant-name">${p.nama}</div>
-                        <div class="participant-id">ID: ${p.id}</div>
-                        <div>📍 Asal: ${p.asal}</div>
-                        <div>📅 Daftar: ${p.tanggal}</div>
-                        <div style="margin-top:8px;">
-                            <span class="status-badge status-${p.status}">
-                                ${p.status === 'pending' ? '⏳ Menunggu' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}
-                            </span>
-                        </div>
-                        <select class="status-select" data-id="${p.id}" onchange="updateStatus('${p.id}', this.value)">
-                            <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>⏳ Ubah ke Menunggu</option>
-                            <option value="lolos" ${p.status === 'lolos' ? 'selected' : ''}>✅ Ubah ke Lolos</option>
-                            <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>❌ Ubah ke Ditolak</option>
-                        </select>
+            container.innerHTML = filtered.map(p => `
+                <div class="participant-card">
+                    <div class="participant-name">${escapeHtml(p.nama)}</div>
+                    <div class="participant-id">ID: ${p.id}</div>
+                    <div>📍 Asal: ${escapeHtml(p.asal)}</div>
+                    <div>📅 Tanggal: ${p.tanggal || '-'}</div>
+                    ${p.videoLink ? `<a href="${p.videoLink}" target="_blank" class="video-link">🎬 Video Link</a>` : '<div>🎬 Video: -</div>'}
+                    <div style="margin-top:8px;">
+                        <span class="status-badge status-${p.status}">
+                            ${p.status === 'pending' ? '⏳ Pending' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}
+                        </span>
                     </div>
-                `).join('');
-            } else {
-                // TAMPILAN VIDEO (LANGSUNG PUTAR)
-                container.innerHTML = filtered.map(p => `
-                    <div class="participant-card">
-                        <div class="participant-name">${p.nama}</div>
-                        <div class="participant-id">ID: ${p.id}</div>
-                        <div>📍 Asal: ${p.asal}</div>
-                        <video class="video-player" controls>
-                            <source src="${p.video}" type="video/mp4">
-                            Browser tidak support video tag.
-                        </video>
-                        <div style="margin-top:8px;">
-                            <span class="status-badge status-${p.status}">
-                                ${p.status === 'pending' ? '⏳ Menunggu' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}
-                            </span>
-                        </div>
-                    </div>
-                `).join('');
-            }
+                    <select class="status-select" data-id="${p.id}" onchange="updateStatus('${p.id}', this.value)">
+                        <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>⏳ Ubah ke Pending</option>
+                        <option value="lolos" ${p.status === 'lolos' ? 'selected' : ''}>✅ Ubah ke Lolos</option>
+                        <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>❌ Ubah ke Ditolak</option>
+                    </select>
+                </div>
+            `).join('');
         }
-        
-        function updateStatus(id, newStatus) {
-            const peserta = allPeserta.find(p => p.id === id);
-            if (peserta) {
-                peserta.status = newStatus;
-                renderStats();
-                renderList();
-                alert(`✅ Status ${id} diubah menjadi ${newStatus}`);
+
+        async function updateStatus(id, newStatus) {
+            try {
+                await fetch(`${APPS_SCRIPT_URL}?action=updateStatus&id=${encodeURIComponent(id)}&status=${encodeURIComponent(newStatus)}`);
+                loadData();
                 if ('vibrate' in navigator) navigator.vibrate(50);
+            } catch (err) {
+                alert('Gagal update status: ' + err.message);
             }
         }
-        
-        function filterParticipants() {
-            renderList();
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-        
-        // TAB LOGIC
-        document.getElementById('tabStatusBtn').addEventListener('click', () => {
-            currentTab = 'status';
-            document.getElementById('tabStatusBtn').classList.add('active');
-            document.getElementById('tabVideoBtn').classList.remove('active');
-            renderList();
-        });
-        
-        document.getElementById('tabVideoBtn').addEventListener('click', () => {
-            currentTab = 'video';
-            document.getElementById('tabVideoBtn').classList.add('active');
-            document.getElementById('tabStatusBtn').classList.remove('active');
-            renderList();
-        });
-        
-        document.getElementById('searchInput').addEventListener('keyup', filterParticipants);
-        document.getElementById('filterStatus').addEventListener('change', filterParticipants);
-        
+
         loadData();
+        setInterval(loadData, 30000);
     </script>
 </body>
 </html>

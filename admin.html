@@ -3,28 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Admin Panel - Valtz Clan</title>
+    <title>Valtz Admin - Video & Status</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
+            font-family: 'Segoe UI', system-ui;
             background: #0a0f1e;
             padding: 16px;
             padding-bottom: 80px;
         }
-
-        /* Container */
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 600px; margin: 0 auto; }
+        
         /* Header */
         .header {
             background: linear-gradient(135deg, #1a2a4a, #0a1a2f);
@@ -33,223 +22,122 @@
             text-align: center;
             margin-bottom: 20px;
             border: 1px solid #00aaff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-
-        .header h1 {
-            color: #88ccff;
-            font-size: 1.6rem;
-            letter-spacing: 1px;
+        .header h1 { color: #88ccff; font-size: 1.6rem; }
+        
+        /* Tab */
+        .tab-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 60px;
+            padding: 5px;
         }
-
-        .header p {
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            background: transparent;
             color: #aaa;
-            font-size: 0.8rem;
-            margin-top: 5px;
+            font-weight: bold;
+            cursor: pointer;
         }
-
-        /* Statistik Card */
+        .tab-btn.active {
+            background: #00aaff;
+            color: white;
+            box-shadow: 0 0 10px #00aaff;
+        }
+        
+        /* Statistik */
         .stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-bottom: 20px;
         }
-
         .stat-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 16px;
+            background: rgba(0,0,0,0.6);
+            padding: 12px;
             border-radius: 20px;
             text-align: center;
             border: 1px solid #00aaff;
         }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ffaa00;
-        }
-
-        .stat-label {
-            color: #ccc;
-            font-size: 0.75rem;
-            margin-top: 5px;
-        }
-
-        /* Filter Bar */
+        .stat-number { font-size: 1.8rem; font-weight: bold; color: #ffaa00; }
+        .stat-label { font-size: 0.7rem; color: #ccc; }
+        
+        /* Filter */
         .filter-bar {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
-
-        .filter-bar input {
-            flex: 2;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #00aaff;
-            border-radius: 30px;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .filter-bar select {
+        .filter-bar input, .filter-bar select {
             flex: 1;
-            padding: 12px 10px;
-            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
             border: 1px solid #00aaff;
             border-radius: 30px;
             color: white;
-            font-size: 0.9rem;
         }
-
-        .refresh-btn {
-            background: #00aaff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 30px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            flex: 0.5;
-        }
-
-        /* List Peserta (Card Style) */
-        .participant-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
+        
+        /* List Peserta */
         .participant-card {
-            background: rgba(10, 20, 35, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(10,20,35,0.9);
             border-radius: 24px;
             padding: 16px;
+            margin-bottom: 12px;
             border: 1px solid #2a4a6e;
-            transition: all 0.2s ease;
         }
-
-        .participant-card:active {
-            transform: scale(0.99);
-            background: rgba(20, 40, 60, 0.9);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
         .participant-name {
             font-size: 1.2rem;
             font-weight: bold;
             color: #88ccff;
         }
-
         .participant-id {
             font-size: 0.7rem;
+            color: #aaa;
             font-family: monospace;
-            background: #1a2a4a;
-            padding: 4px 8px;
-            border-radius: 12px;
-            color: #aaa;
         }
-
-        .participant-detail {
+        .video-player {
+            width: 100%;
             margin: 10px 0;
-            padding-left: 5px;
+            border-radius: 16px;
+            background: #000;
         }
-
-        .participant-detail span {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
-
-        .participant-detail strong {
-            color: white;
-            font-weight: 500;
-        }
-
-        .video-link {
-            display: inline-block;
-            margin-top: 8px;
-            color: #88ccff;
-            text-decoration: none;
-            font-size: 0.8rem;
-            background: #1a2a4a;
-            padding: 5px 12px;
-            border-radius: 20px;
-        }
-
-        /* Status Badge */
         .status-badge {
             display: inline-block;
-            padding: 5px 12px;
+            padding: 4px 12px;
             border-radius: 30px;
             font-size: 0.7rem;
             font-weight: bold;
         }
-
-        .status-pending {
-            background: #ff9800;
-            color: #1a1a1a;
-        }
-
-        .status-lolos {
-            background: #4caf50;
-            color: white;
-        }
-
-        .status-ditolak {
-            background: #f44336;
-            color: white;
-        }
-
-        /* Status Select (Tombol Ubah Status) */
+        .status-pending { background: #ff9800; color: #000; }
+        .status-lolos { background: #4caf50; color: #fff; }
+        .status-ditolak { background: #f44336; color: #fff; }
+        
         .status-select {
             width: 100%;
-            padding: 12px;
             margin-top: 12px;
+            padding: 10px;
             background: #1a2a4a;
             border: 1px solid #00aaff;
             border-radius: 30px;
             color: white;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
         }
-
-        /* Loading & Empty State */
-        .loading-state, .empty-state {
-            text-align: center;
-            color: #aaa;
-            padding: 40px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 24px;
-        }
-
-        /* Tombol back ke Index */
+        
         .back-home {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: #1a3a5a;
-            border: 1px solid #00aaff;
             border-radius: 40px;
-            padding: 12px 25px;
+            padding: 10px 20px;
             color: white;
             text-decoration: none;
-            font-weight: bold;
-            z-index: 100;
-            backdrop-filter: blur(8px);
-            white-space: nowrap;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -257,138 +145,157 @@
     <div class="container">
         <div class="header">
             <h1>⚔️ VALTZ ADMIN ⚔️</h1>
-            <p>Kelola status peserta seleksi</p>
+            <p>Kelola peserta & video seleksi</p>
         </div>
 
+        <!-- TAB -->
+        <div class="tab-bar">
+            <button class="tab-btn active" id="tabStatusBtn">📋 STATUS</button>
+            <button class="tab-btn" id="tabVideoBtn">🎥 VIDEO</button>
+        </div>
+
+        <!-- STATISTIK -->
         <div class="stats" id="statsArea">
-            <div class="stat-card"><div class="stat-number" id="totalCount">0</div><div class="stat-label">Total Peserta</div></div>
-            <div class="stat-card"><div class="stat-number" id="pendingCount">0</div><div class="stat-label">⏳ Pending</div></div>
-            <div class="stat-card"><div class="stat-number" id="lolosCount">0</div><div class="stat-label">✅ Lolos</div></div>
-            <div class="stat-card"><div class="stat-number" id="ditolakCount">0</div><div class="stat-label">❌ Ditolak</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalCount">0</div><div class="stat-label">Total</div></div>
+            <div class="stat-card"><div class="stat-number" id="lolosCount">0</div><div class="stat-label">Lolos</div></div>
+            <div class="stat-card"><div class="stat-number" id="ditolakCount">0</div><div class="stat-label">Ditolak</div></div>
         </div>
 
-        <div class="filter-bar">
-            <input type="text" id="searchInput" placeholder="🔍 Cari nama / ID..." onkeyup="filterParticipants()">
-            <select id="filterStatus" onchange="filterParticipants()">
-                <option value="all">📋 Semua</option>
-                <option value="pending">⏳ Pending</option>
-                <option value="lolos">✅ Lolos</option>
-                <option value="ditolak">❌ Ditolak</option>
+        <!-- FILTER -->
+        <div class="filter-bar" id="filterBar">
+            <input type="text" id="searchInput" placeholder="🔍 Cari nama / ID...">
+            <select id="filterStatus">
+                <option value="all">Semua</option>
+                <option value="pending">Menunggu</option>
+                <option value="lolos">Lolos</option>
+                <option value="ditolak">Ditolak</option>
             </select>
-            <button class="refresh-btn" onclick="loadData()">🔄</button>
+            <button class="refresh-btn" onclick="loadData()" style="background:#00aaff; border:none; padding:0 15px; border-radius:30px;">🔄</button>
         </div>
 
+        <!-- DAFTAR PESERTA -->
         <div id="participantList" class="participant-list">
-            <div class="loading-state">⏳ Memuat data peserta...</div>
+            <div class="loading-state">⏳ Memuat data...</div>
         </div>
 
         <a href="index.html" class="back-home">← KEMBALI KE WEBSITE</a>
     </div>
 
     <script>
-        // ====================== DATA DUMMY SEMENTARA ======================
-        // TODO: GANTI INI DENGAN FETCH DARI SPREADSHEET / BACKEND
-        // TAPI UNTUK DEMO APK, KITA PAKAI DATA CONTOH DULU
-        
+        // ============== DATA SAMPLE + VIDEO ==============
         let allPeserta = [
-            { id: "VLT1746839409123", nama: "Raul", asal: "Cianjur Selatan", status: "pending", tanggal: "2025-05-09" },
-            { id: "VLT1746839501234", nama: "Valtz Warrior", asal: "Jakarta", status: "lolos", tanggal: "2025-05-09" },
-            { id: "VLT1746839605678", nama: "Ksatria Hitam", asal: "Bandung", status: "ditolak", tanggal: "2025-05-08" },
-            { id: "VLT1746839709012", nama: "Dragon Editz", asal: "Medan", status: "pending", tanggal: "2025-05-08" }
+            { id: "VLT1746839409123", nama: "Raul", asal: "Cianjur", video: "sample.mp4", status: "pending", tanggal: "2025-05-09" },
+            { id: "VLT1746839501234", nama: "Valtz Warrior", asal: "Jakarta", video: "sample2.mp4", status: "lolos", tanggal: "2025-05-09" },
+            { id: "VLT1746839605678", nama: "Ksatria Hitam", asal: "Bandung", video: "sample3.mp4", status: "ditolak", tanggal: "2025-05-08" }
         ];
 
-        function loadData() {
-            // SIMULASI LOAD DATA DARI SERVER
-            // Nanti kalau sudah ada backend, ganti fetch() di sini
-            // fetch('https://script.google.com/macros/s/.../exec?action=getAll')
-            // .then(res => res.json())
-            // .then(data => { allPeserta = data; renderStats(); renderList(); });
-            
+        let currentTab = 'status';
+
+        async function loadData() {
+            // Nanti ganti fetch ke spreadsheet
             renderStats();
             renderList();
         }
 
         function renderStats() {
             const total = allPeserta.length;
-            const pending = allPeserta.filter(p => p.status === 'pending').length;
             const lolos = allPeserta.filter(p => p.status === 'lolos').length;
             const ditolak = allPeserta.filter(p => p.status === 'ditolak').length;
-            
             document.getElementById('totalCount').innerText = total;
-            document.getElementById('pendingCount').innerText = pending;
             document.getElementById('lolosCount').innerText = lolos;
             document.getElementById('ditolakCount').innerText = ditolak;
         }
 
         function renderList() {
             const search = document.getElementById('searchInput').value.toLowerCase();
-            const filterStatus = document.getElementById('filterStatus').value;
+            const statusFilter = document.getElementById('filterStatus').value;
             
             let filtered = allPeserta.filter(p => {
-                const matchSearch = p.nama.toLowerCase().includes(search) || p.id.toLowerCase().includes(search);
-                const matchStatus = filterStatus === 'all' || p.status === filterStatus;
-                return matchSearch && matchStatus;
+                const match = p.nama.toLowerCase().includes(search) || p.id.includes(search);
+                const matchStatus = statusFilter === 'all' || p.status === statusFilter;
+                return match && matchStatus;
             });
             
-            const listContainer = document.getElementById('participantList');
+            const container = document.getElementById('participantList');
             
             if (filtered.length === 0) {
-                listContainer.innerHTML = '<div class="empty-state">📭 Tidak ada peserta ditemukan</div>';
+                container.innerHTML = '<div class="empty-state">📭 Tidak ada peserta</div>';
                 return;
             }
             
-            listContainer.innerHTML = filtered.map(p => `
-                <div class="participant-card" data-id="${p.id}">
-                    <div class="card-header">
-                        <div class="participant-name">${escapeHtml(p.nama)}</div>
-                        <div class="participant-id">${p.id}</div>
+            if (currentTab === 'status') {
+                // TAMPILAN STATUS + UBAH STATUS
+                container.innerHTML = filtered.map(p => `
+                    <div class="participant-card">
+                        <div class="participant-name">${p.nama}</div>
+                        <div class="participant-id">ID: ${p.id}</div>
+                        <div>📍 Asal: ${p.asal}</div>
+                        <div>📅 Daftar: ${p.tanggal}</div>
+                        <div style="margin-top:8px;">
+                            <span class="status-badge status-${p.status}">
+                                ${p.status === 'pending' ? '⏳ Menunggu' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}
+                            </span>
+                        </div>
+                        <select class="status-select" data-id="${p.id}" onchange="updateStatus('${p.id}', this.value)">
+                            <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>⏳ Ubah ke Menunggu</option>
+                            <option value="lolos" ${p.status === 'lolos' ? 'selected' : ''}>✅ Ubah ke Lolos</option>
+                            <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>❌ Ubah ke Ditolak</option>
+                        </select>
                     </div>
-                    <div class="participant-detail">
-                        <div><span>📍 Asal:</span> <strong>${escapeHtml(p.asal)}</strong></div>
-                        <div><span>📅 Daftar:</span> <strong>${p.tanggal}</strong></div>
-                        <div style="margin-top: 8px;">
-                            <span class="status-badge status-${p.status}">${p.status === 'pending' ? '⏳ Menunggu' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}</span>
+                `).join('');
+            } else {
+                // TAMPILAN VIDEO (LANGSUNG PUTAR)
+                container.innerHTML = filtered.map(p => `
+                    <div class="participant-card">
+                        <div class="participant-name">${p.nama}</div>
+                        <div class="participant-id">ID: ${p.id}</div>
+                        <div>📍 Asal: ${p.asal}</div>
+                        <video class="video-player" controls>
+                            <source src="${p.video}" type="video/mp4">
+                            Browser tidak support video tag.
+                        </video>
+                        <div style="margin-top:8px;">
+                            <span class="status-badge status-${p.status}">
+                                ${p.status === 'pending' ? '⏳ Menunggu' : (p.status === 'lolos' ? '✅ Lolos' : '❌ Ditolak')}
+                            </span>
                         </div>
                     </div>
-                    <select class="status-select" data-id="${p.id}" onchange="updateStatus('${p.id}', this.value)">
-                        <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>⏳ Ubah ke PENDING</option>
-                        <option value="lolos" ${p.status === 'lolos' ? 'selected' : ''}>✅ Ubah ke LOLOS</option>
-                        <option value="ditolak" ${p.status === 'ditolak' ? 'selected' : ''}>❌ Ubah ke DITOLAK</option>
-                    </select>
-                </div>
-            `).join('');
+                `).join('');
+            }
+        }
+        
+        function updateStatus(id, newStatus) {
+            const peserta = allPeserta.find(p => p.id === id);
+            if (peserta) {
+                peserta.status = newStatus;
+                renderStats();
+                renderList();
+                alert(`✅ Status ${id} diubah menjadi ${newStatus}`);
+                if ('vibrate' in navigator) navigator.vibrate(50);
+            }
         }
         
         function filterParticipants() {
             renderList();
         }
         
-        async function updateStatus(id, newStatus) {
-            // SIMULASI UPDATE STATUS
-            // Nanti kalau ada backend, ganti fetch POST ke sini
-            // await fetch('https://url-backend-kamu/updateStatus', { method: 'POST', body: ... })
-            
-            const peserta = allPeserta.find(p => p.id === id);
-            if (peserta) {
-                peserta.status = newStatus;
-                renderStats();
-                renderList();
-                alert(`✅ Status peserta ${id} berhasil diubah menjadi ${newStatus.toUpperCase()}`);
-                if ('vibrate' in navigator) navigator.vibrate(50);
-            } else {
-                alert('❌ Gagal mengubah status');
-            }
-        }
+        // TAB LOGIC
+        document.getElementById('tabStatusBtn').addEventListener('click', () => {
+            currentTab = 'status';
+            document.getElementById('tabStatusBtn').classList.add('active');
+            document.getElementById('tabVideoBtn').classList.remove('active');
+            renderList();
+        });
         
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        document.getElementById('tabVideoBtn').addEventListener('click', () => {
+            currentTab = 'video';
+            document.getElementById('tabVideoBtn').classList.add('active');
+            document.getElementById('tabStatusBtn').classList.remove('active');
+            renderList();
+        });
         
-        // Auto refresh tiap 30 detik (nanti kalau backend aktif)
-        // setInterval(loadData, 30000);
+        document.getElementById('searchInput').addEventListener('keyup', filterParticipants);
+        document.getElementById('filterStatus').addEventListener('change', filterParticipants);
         
         loadData();
     </script>

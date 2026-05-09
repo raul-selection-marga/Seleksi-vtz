@@ -217,11 +217,12 @@
     </div>
 
     <script>
-        // URL WEB APP TERBARU
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOXsM76G68jzjR4crkXTcbgkqKFz1F_yUoyCUNHXAYytjkSVHS7hID4CYrdUlGLuUM/exec';
+        // ========== BACKEND VERCEL ==========
+        const APPS_SCRIPT_URL = 'https://seleksi-vtz.vercel.app/api';
         
         const WA_GROUP_LINK = 'https://chat.whatsapp.com/K39hTGiWqhNANBAKVMTvo1';
         
+        // JADWAL SELEKSI (2 sesi buka)
         function isSelectionOpen() {
             const now = new Date();
             const jam = now.getHours();
@@ -248,6 +249,7 @@
             }
         }
 
+        // TAB LOGIC
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -262,6 +264,7 @@
             });
         });
 
+        // UPLOAD VIDEO
         let selectedVideo = null;
         let videoURL = null;
 
@@ -291,6 +294,7 @@
             videoPreview.innerHTML = `<video controls src="${videoURL}" style="width:100%; border-radius:12px;"></video>`;
         }
 
+        // SUBMIT PENDAFTARAN
         document.getElementById('submitBtn').addEventListener('click', async () => {
             if (!isSelectionOpen()) {
                 alert('Seleksi sedang tutup! ' + getJadwalText());
@@ -304,14 +308,17 @@
             }
             document.getElementById('loading').style.display = 'block';
             document.getElementById('submitBtn').disabled = true;
+            
             const formData = new FormData();
             formData.append('action', 'daftar');
             formData.append('nama', nama);
             formData.append('asal', asal);
             formData.append('video', selectedVideo);
+            
             try {
                 const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await response.json();
+                
                 if (data.success) {
                     document.getElementById('result').innerHTML = `<div class="result success">✅ PENDAFTARAN BERHASIL!<br><br><div class="id-box"><strong>ID PENDAFTARAN:</strong> ${data.id}</div><strong>📌 SIMPAN ID INI!</strong><br>Gunakan ID di atas untuk cek status kelulusan nanti.</div>`;
                     document.getElementById('nama').value = '';
@@ -329,6 +336,7 @@
             }
         });
 
+        // CEK STATUS
         document.getElementById('cekStatusBtn').addEventListener('click', async () => {
             const searchKey = document.getElementById('searchKey').value.trim();
             if (!searchKey) {
